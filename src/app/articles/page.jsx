@@ -6,7 +6,7 @@ const ArticlesPage = () => {
  const [error, setError] = useState(null);
 
  useEffect(() => {
-  fetch('http://rohanghalib.com/fetch.php', {
+  fetch('https://rohanghalib.com/fetch.php', {
     headers: {
       'Accept': 'application/json'
     }
