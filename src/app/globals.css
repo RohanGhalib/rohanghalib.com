@@ -1,0 +1,85 @@
+@font-face {
+  font-family: 'Alqalam';
+  src: url(/fonts/alqalam.ttf);
+}
+body{
+  font-family: "Inter";
+  text-align: center;
+  color: black !important;
+}
+.urdutext{
+  font-family: 'Alqalam';
+}
+.profilepicture{
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+p{
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+.socialbutton{
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+  background-color: rgba(40, 39, 39, 0);
+  color: black;
+  border: 1.7px solid black;
+  transition: 0.1s;
+  text-decoration: none;
+  margin: 0.4rem;
+  cursor: pointer;
+}
+.socialbutton:hover{
+  background-color: rgb(0, 0, 0);
+  color: white;
+  transition: 0.1s;
+}
+.heading-about{
+  color: red !important;
+}
+.article-tile{
+margin-top: 20px;
+border: 2px solid black !important; 
+width: 400px;
+padding: 5px;
+border-radius: 5px;
+}
+.a-to-minimize{
+  text-decoration: none;
+  color: black !important;
+  font-weight: 600;
+  font-size: 1.2rem;
+  width: 300px;
+  float: left;
+  margin-right: 150px;
+}
+.article-card{
+  border: 3px solid black;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  height: 200px;
+  transition: 0.2s;
+}
+.article-card:hover{
+  background-color: black;
+  transition: 0.2s;
+  color: white;
+  cursor: pointer;
+}
+.footer{
+  background-color: black;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  padding-bottom: 100px;
+}
