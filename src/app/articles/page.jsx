@@ -6,7 +6,7 @@ const ArticlesPage = () => {
  const [error, setError] = useState(null);
 
  useEffect(() => {
-  fetch('https://api.rohanghalib.com/fetch.php', {
+  fetch('http://api.rohanghalib.com/fetch.php', {
     headers: {
       'Accept': 'application/json'
     }
@@ -36,7 +36,7 @@ const ArticlesPage = () => {
      style={{ cursor: 'pointer' }}
      onClick={() => {
      // Replace '/articles/' with your actual article route
-     window.location.href = `/articles/${article.id || idx}`;
+     window.location.href = `/articles/id/${article.id || idx}`;
      }}
     >
      <div className="article-card">
@@ -53,6 +53,9 @@ const ArticlesPage = () => {
      </p>
      <span className='float-bottom'><i>Published 23/06/23</i></span>
      </div>
+
+
+
     </div>
     ))}
    </div>
