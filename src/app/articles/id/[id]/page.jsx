@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
+import Footer from "@/sections/Footer";
 export default function ArticlePage({ params }) {
   const { id } = React.use(params); // Unwrap the params Promise
   const [article, setArticle] = useState(null);
@@ -42,13 +42,16 @@ export default function ArticlePage({ params }) {
     );
 
   return (
+    <>
     <div className="container mt-5">
       <h1>{article.title}</h1>
       <p>{article.description}</p>
-      <div style={{ whiteSpace: "pre-line" }}>{article.content}</div>
+      <div >{article.content}</div>
       <p>
         <i>Published: {article.published_at || "Unknown date"}</i>
       </p>
     </div>
+    <Footer />
+    </>
   );
 }

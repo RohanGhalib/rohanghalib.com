@@ -1,3 +1,4 @@
+import Link from "next/link"
 export default function Hero() {
 
  return (
@@ -16,7 +17,10 @@ export default function Hero() {
         <a href="mailto:muhammadrohanghalib@gmail.com" className="   socialbutton"><i className="bi bi-envelope-at-fill"></i></a>
 <br />
 <br />
-    <a href="/articles" className="socialbutton">Read My Articles <i className="bi bi-arrow-up-right-circle-fill"></i></a>
+        <Link href="/articles" className="socialbutton">My Projects <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
+
+    <Link href="/articles" className="socialbutton">Read My Articles <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
+
     </div>
     <div className="col-lg-6">
    <div className="spotifyplayer mt-3">
