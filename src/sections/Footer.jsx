@@ -1,5 +1,8 @@
 export default function Footer() {
  return(
+  <>
+      <link rel="icon" href="/dp.png" type="image/png" sizes="32x32" />
+  
    <footer className="footer mt-5">
     <div className="container">
       <div className="row mt-3 ">
@@ -22,5 +25,6 @@ export default function Footer() {
       </div>
     </div>
    </footer>
+   </>
  )
 }
