@@ -22,15 +22,16 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rohan Ghalib - Developer Portfolio",
+    title: "Rohan Ghalib - Portfolio",
     description: "Welcome to Rohan Ghalib's personal website. Explore projects, skills, and contact information.",
-    images: ["https://rohanghalib.com/og-image.jpg"],
+    images: ["https://rohanghalib.com/profile.jpg"],
   },
 };
 
 export default function Home() {
   return (
-    <>
+    
+    <>    
       <Hero />
       <AboutMe />
       <Footer />

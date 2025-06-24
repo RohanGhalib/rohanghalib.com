@@ -17,7 +17,7 @@ export default function Hero() {
         <a href="mailto:muhammadrohanghalib@gmail.com" className="   socialbutton"><i className="bi bi-envelope-at-fill"></i></a>
 <br />
 <br />
-        <Link href="/articles" className="socialbutton">My Projects <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
+        <Link href="/projects" className="socialbutton">My Projects <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
 <br /><br />
     <Link href="/articles" className="socialbutton mt-5">Read My Articles <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
 

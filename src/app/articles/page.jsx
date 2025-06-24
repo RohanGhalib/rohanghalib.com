@@ -1,6 +1,32 @@
 import React from 'react';
 import Footer from '@/sections/Footer';
 import Link from 'next/link';
+
+// Metadata for social media
+export const metadata = {
+  title: "Articles - Rohan Ghalib",
+  description: "Everything About Me 🙂",
+  openGraph: {
+    title: "Articles - Rohan Ghalib",
+    description: "Everything About Me 🙂",
+    type: "website",
+    url: "https://rohanghalib.com",
+    images: [
+      {
+        url: "https://rohanghalib.com/profile.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Rohan Ghalib Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rohan Ghalib - Portfolio",
+    description: "Welcome to Rohan Ghalib's personal website. Explore projects, skills, and contact information.",
+    images: ["https://rohanghalib.com/profile.jpg"],
+  },
+};
 // Use Next.js fetch cache and server-side rendering
 async function getArticles() {
   try {
