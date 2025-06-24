@@ -18,8 +18,8 @@ export default function Hero() {
 <br />
 <br />
         <Link href="/articles" className="socialbutton">My Projects <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
-
-    <Link href="/articles" className="socialbutton">Read My Articles <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
+<br /><br />
+    <Link href="/articles" className="socialbutton mt-5">Read My Articles <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
 
     </div>
     <div className="col-lg-6">
