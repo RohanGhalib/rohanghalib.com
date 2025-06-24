@@ -1,5 +1,6 @@
 import React from 'react';
 import Footer from '@/sections/Footer';
+import Link from 'next/link';
 // Use Next.js fetch cache and server-side rendering
 async function getArticles() {
   try {
@@ -24,7 +25,7 @@ const ArticlesPage = async () => {
   return (
     <>
     <div className="container mt-5 ">
-      <h1>Articles</h1>
+      <h1><Link style={{textDecoration: 'none', color: 'inherit'}} href={"./"}> <i  className="bi bi-arrow-left-circle-fill"></i> </Link>Articles</h1>
       {error && <div>Error: {error}</div>}
       <div className="row mt-2 d-flex justify-content-between">
         {articles.map((article, idx) => (
@@ -33,7 +34,7 @@ const ArticlesPage = async () => {
             className="col-lg-4 mt-3 d-flex justify-content-start"
             style={{ cursor: 'pointer' }}
           >
-            <a
+            <Link
               href={`/articles/id/${article.id || idx}`}
               style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}
               tabIndex={0}
@@ -53,7 +54,7 @@ const ArticlesPage = async () => {
                 </p>
                 <span className='float-bottom'><i>Published 23/06/23</i></span>
               </div>
-            </a>
+            </Link>
           </div>
         ))}
       </div>
