@@ -5,8 +5,6 @@ export default function Projects() {
   <>
 <div className="container mt-5">
  <h1><Link style={{textDecoration: 'none', color: 'inherit'}} href={"./"}> <i  className="bi bi-arrow-left-circle-fill"></i> </Link>Projects</h1>
-
-
 </div>
 <Footer />
   </>
