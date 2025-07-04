@@ -83,36 +83,3 @@ border-radius: 5px;
   border-top-right-radius: 50px;
   padding-bottom: 100px;
 }
-.hero-heading {
-  font-size: 4rem;
-  color: #1369c5;
-  text-align: center;
-  margin-top: 20px;
-  font-weight: bolder;
-}
-p{
-  font-size: 1.5rem;
-  color: #333;
-  text-align: center;
-  margin-top: 10px;
-}
-.img-logo{
-  padding: 30px;
-}
-.colour-card{
-  width: 400px;
-  height: 200px;;
-  border-radius: 20px;
-  padding: 20px;
-}
-.colourlabel{
-  font-size: 1.5rem;
-  color: #fff;
-  font-weight: bolder;
-}
-.blue{
-  background-color: #009ee0;
-}
-.pink{
-  background-color: #e30016;
-}
