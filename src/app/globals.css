@@ -83,3 +83,102 @@ border-radius: 5px;
   border-top-right-radius: 50px;
   padding-bottom: 100px;
 }
+.card-project{
+ cursor: pointer;
+  padding: 20px;
+  border-radius: 25px;
+  height: 200px;
+  transition: 0.1s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.card-project:hover{
+  translate: 0 -10px;
+  transform: scale(1.08);
+  z-index: 2;
+}
+.card-green{
+ background: hsla(120, 61%, 34%, 1);
+
+background: linear-gradient(135deg, hsla(120, 61%, 34%, 1) 0%, hsla(120, 61%, 50%, 1) 100%);
+
+background: -moz-linear-gradient(135deg, hsla(120, 61%, 34%, 1) 0%, hsla(120, 61%, 50%, 1) 100%);
+
+background: -webkit-linear-gradient(135deg, hsla(120, 61%, 34%, 1) 0%, hsla(120, 61%, 50%, 1) 100%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#228B22", endColorstr="#32CD32", GradientType=1 );
+}
+.card-green:hover{
+  background: hsla(120, 61%, 50%, 1);
+
+background: linear-gradient(135deg, hsla(120, 61%, 50%, 1) 0%, hsla(120, 61%, 34%, 1) 100%);
+
+background: -moz-linear-gradient(135deg, hsla(120, 61%, 50%, 1) 0%, hsla(120, 61%, 34%, 1) 100%);
+
+background: -webkit-linear-gradient(135deg, hsla(120, 61%, 50%, 1) 0%, hsla(120, 61%, 34%, 1) 100%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#32CD32", endColorstr="#228B22", GradientType=1 );
+transition: 0.2s;;
+}
+.card-pink{
+  background: hsla(352, 83%, 57%, 1);
+
+background: linear-gradient(135deg, hsla(352, 83%, 57%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(14, 92%, 61%, 1) 100%);
+
+background: -moz-linear-gradient(135deg, hsla(352, 83%, 57%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(14, 92%, 61%, 1) 100%);
+
+background: -webkit-linear-gradient(135deg, hsla(352, 83%, 57%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(14, 92%, 61%, 1) 100%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EC3750", endColorstr="#EC3750", GradientType=1 );
+}
+.card-pink:hover{
+  background: hsla(14, 92%, 61%, 1);
+
+background: linear-gradient(135deg, hsla(14, 92%, 61%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(352, 83%, 57%, 1) 100%);
+
+background: -moz-linear-gradient(135deg, hsla(14, 92%, 61%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(352, 83%, 57%, 1) 100%);
+
+background: -webkit-linear-gradient(135deg, hsla(14, 92%, 61%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(352, 83%, 57%, 1) 100%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#F76A41", endColorstr="#EC3750", GradientType=1 );
+}
+.card-introtaps{
+  background: hsla(63, 58%, 55%, 1);
+
+background: linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
+
+background: -moz-linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
+
+background: -webkit-linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#C8CE49", endColorstr="#1E1F1F", GradientType=1 );
+}
+.card-introtaps:hover{
+  background: hsla(63, 58%, 55%, 1);
+
+background: linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
+
+background: -moz-linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
+
+background: -webkit-linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#C8CE49", endColorstr="#1E1F1F", GradientType=1 );
+}
+.card-publicnotepad{
+  background: hsla(46, 76%, 59%, 1);
+
+background: linear-gradient(135deg, hsla(46, 76%, 59%, 1) 0%, hsla(61, 87%, 70%, 1) 100%);
+
+background: -moz-linear-gradient(135deg, hsla(46, 76%, 59%, 1) 0%, hsla(61, 87%, 70%, 1) 100%);
+
+background: -webkit-linear-gradient(135deg, hsla(46, 76%, 59%, 1) 0%, hsla(61, 87%, 70%, 1) 100%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#E6C046", endColorstr="#F3F56F", GradientType=1 );
+}
+.card-heading-light{
+  color: white;
+  font-weight: bolder;
+}
+.card-heading-dark{
+  color: rgb(39, 39, 39);
+  font-weight: bolder;
+}

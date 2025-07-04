@@ -1,3 +1,4 @@
+import Link from "next/link" 
 export default function AboutMe() {
 return (
  <div className="container mt-5">
@@ -20,9 +21,11 @@ return (
     <p>
       I use <strong>Illustrator</strong> and <strong>Photoshop</strong> for all my design work, and yes, I tweak every pixel.
     </p>
+    <Link href="/" className="socialbutton">Read More <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
+
   </section>
 <br /><br />
-  <section>
+  <section> 
     <h2><i className="bi bi-moon-fill"></i> Islami Jamiat Talaba (IJT)</h2>
     <p>
       I’m proud to be associated with <strong>Islami Jamiat Talaba Pakistan</strong>, where I contribute my skills to meaningful causes. Through IJT, I’ve helped organize events, design social media campaigns, and lead awareness initiatives.
@@ -30,6 +33,8 @@ return (
     <p>
       Being part of IJT is more than community service — it’s part of my identity and spiritual journey. It teaches me discipline, unity, and how to lead with purpose.
     </p>
+        <Link href="/" className="socialbutton">Read More <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
+
   </section>
 <br /><br />
   <section>
@@ -40,6 +45,8 @@ return (
     <p>
       Hack Club is where I first explored collaborative coding and started sharing my work with confidence. Whether it’s writing shell scripts, building hackable tools, or contributing to open-source, I feel right at home in that community.
     </p>
+        <Link href="/" className="socialbutton">Read More <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
+
   </section>
   <br /><br />
    <section>
@@ -50,6 +57,8 @@ return (
   <p>
     When it comes to music, I’m more of a listener than a composer — you’ll often find me tuned into thoughtful playlists on Spotify while working or winding down.
   </p>
+      <Link href="/" className="socialbutton">Read More <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
+
 </section>
 
 </section>
