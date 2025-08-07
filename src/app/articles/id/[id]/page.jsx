@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Footer from "@/sections/Footer";
+import ReactMarkdown from "react-markdown";
 export default function ArticlePage({ params }) {
   const { id } = React.use(params); // Unwrap the params Promise
   const [article, setArticle] = useState(null);
@@ -41,17 +42,21 @@ export default function ArticlePage({ params }) {
       </div>
     );
 
+  // Import a markdown parser
+
   return (
     <>
-    <div className="container mt-5">
-      <h1>{article.title}</h1>
-      <p>{article.description}</p>
-      <div >{article.content}</div>
-      <p>
-        <i>Published: {article.published_at || "Unknown date"}</i>
-      </p>
-    </div>
-    <Footer />
+      <div className="container mt-5">
+        <h1>{article.title}</h1>
+        <p>{article.description}</p>
+        <div>
+          <ReactMarkdown>{article.content}</ReactMarkdown>
+        </div>
+        <p>
+          <i>Published: {article.published_at || "Unknown date"}</i>
+        </p>
+      </div>
+      <Footer />
     </>
   );
 }

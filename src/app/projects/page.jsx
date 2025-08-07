@@ -7,7 +7,8 @@ export default function Projects() {
  <h1><Link style={{textDecoration: 'none', color: 'inherit'}} href={"./"}> <i  className="bi bi-arrow-left-circle-fill"></i> </Link>Projects</h1>
  <div className="row mt-5">
   <div className="col-lg-3 mt-3">
-    <div className="card-project card-green">
+    <div className="card-project card-green"><h1>Rohan Ghalib</h1>
+    <Footer></Footer>
             <h2 className='card-heading-light'>teenVerse</h2>
 
     </div>

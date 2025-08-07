@@ -28,13 +28,14 @@ export const metadata = {
   },
 };
 
-export default function Home() {
+export default function Home() {        
   return (
     
     <>    
       <Hero />
       <AboutMe />
       <Footer />
+      <Link href="/img.png"></Link>
     </>
   );
 }
