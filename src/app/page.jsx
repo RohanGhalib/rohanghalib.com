@@ -1,7 +1,7 @@
 import Hero from "@/sections/Hero";
 import AboutMe from "@/sections/AboutMe";
 import Footer from "@/sections/Footer";
-
+import Link from "next/link";
 // Metadata for social media
 export const metadata = {
   title: "Home - Rohan Ghalib's Portfolio",
@@ -35,7 +35,6 @@ export default function Home() {
       <Hero />
       <AboutMe />
       <Footer />
-      <Link href="/img.png"></Link>
     </>
   );
 }
