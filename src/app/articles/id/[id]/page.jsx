@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Footer from "@/sections/Footer";
+import rehypeRaw from "rehype-raw";
 import ReactMarkdown from "react-markdown";
 export default function ArticlePage({ params }) {
   const { id } = React.use(params); // Unwrap the params Promise
@@ -46,17 +47,28 @@ export default function ArticlePage({ params }) {
 
   return (
     <>
-      <div className="container mt-5">
-        <h1>{article.title}</h1>
-        <p>{article.description}</p>
-        <div>
-          <ReactMarkdown>{article.content}</ReactMarkdown>
-        </div>
-        <p>
-          <i>Published: {article.published_at || "Unknown date"}</i>
-        </p>
-      </div>
-      <Footer />
+  <style>{`
+    .img-blog {
+      max-width: 100%;
+      height: auto;
+    }
+  `}</style>
+  <div className="container mt-5">
+    <h1>{article.title}</h1>
+    <p>{article.description}</p>
+    <div>
+      <ReactMarkdown
+        rehypePlugins={[rehypeRaw]}
+        components={{}}
+      >
+        {article.content}
+      </ReactMarkdown>
+    </div>
+    <p>
+      <i>Published: {article.published_at || "Unknown date"}</i>
+    </p>
+  </div>
+  <Footer />
     </>
   );
 }
