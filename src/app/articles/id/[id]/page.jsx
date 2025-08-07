@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Head from "next/head";
 import Footer from "@/sections/Footer";
 import rehypeRaw from "rehype-raw";
 import ReactMarkdown from "react-markdown";
@@ -47,6 +48,12 @@ export default function ArticlePage({ params }) {
 
   return (
     <>
+    <Head>
+  <title>{article.title} | Rohan Ghalib</title>
+  <meta name="description" content={article.description} />
+  <meta property="og:title" content={article.title} />
+  <meta property="og:description" content={article.description} />
+</Head>
   <style>{`
     .img-blog {
       max-width: 100%;
