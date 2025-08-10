@@ -40,7 +40,7 @@ export default function ArticlePage({ params }) {
   if (!article)
     return (
       <div className="container mt-5">
-        <h1>Loading...</h1>
+        <h1>Loading..</h1>
       </div>
     );
 
