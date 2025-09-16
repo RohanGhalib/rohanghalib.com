@@ -134,7 +134,7 @@ const reportTable = document.getElementById("reportTable");
 
       <div className="table-wrapper" id="reportTable">
         <img src="/daslogo.png" height={56}  alt="" />
-        <h5 >سیکشن "c" کی رپورٹ:       &nbsp;&nbsp;&nbsp;&nbsp;    &nbsp; تاریخ: {today}</h5>
+        <h5 >سیکشن "{section}" کی رپورٹ:       &nbsp;&nbsp;&nbsp;&nbsp;    &nbsp; تاریخ: {today}</h5>
                   {loading && <div className="loader"></div>}
 
         <table  className="report-table">
