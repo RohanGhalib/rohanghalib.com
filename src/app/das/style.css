@@ -1,0 +1,113 @@
+body {
+  margin: 0;
+  font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
+  direction: rtl;
+  background: #f4f6f9;
+}
+
+.app-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+
+.edit-btn, .save-btn {
+  background: #198754;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 10px 0;
+  font-size: 16px;
+  width: 100%;
+  transition: 0.3s;
+}
+.edit-btn:hover, .save-btn:hover {
+  background: #157347;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+th, td {
+  border: 1px solid #444;
+  padding: 0px;
+  text-align: center;
+  background: #ffffff;
+  color: #000000;
+}
+
+th {
+  background: #e9ecef;
+  font-weight: bold;
+}
+
+select, input {
+  padding: 3px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  font-family: inherit;
+  width: 100%;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.modal textarea {
+  width: 100%;
+  height: 200px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.csv-textarea {
+  width: 100%;
+  height: 300px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+/* App.css */
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+  align-items: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+input{
+  text-align: center;
+  font-size: 14px;
+  border: none !important;
+  background: transparent;
+}
