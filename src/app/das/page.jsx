@@ -10,23 +10,31 @@ function App() {
   const [editing, setEditing] = useState(false);
   const [csvText, setCsvText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [section, setSection] = useState("a"); // default section
 
-  // Load students from Firestore
  useEffect(() => {
-  const loadCsv = async () => {
-  setLoading(true);
-  try {
-    const docRef = doc(db, "data", "students");
-    const snap = await getDoc(docRef);
-    if (snap.exists()) {
-      setStudents(snap.data().names || []);
-    }
-  } finally {
-    setLoading(false);
-  }
-};
-  loadCsv();
-}, []);
+    if (!section) return; // skip if no section selected
+
+    const loadCsv = async () => {
+      setLoading(true);
+      try {
+        // 🔑 Use section directly instead of "students"
+        const docRef = doc(db, "data", section);
+        const snap = await getDoc(docRef);
+
+        if (snap.exists()) {
+          setStudents(snap.data().names || []);
+        } else {
+          setStudents([]);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCsv();
+  }, [section]); // re-run when section changes
+
 
 
   // Save PNG
@@ -36,6 +44,7 @@ const reportTable = document.getElementById("reportTable");
   html2canvas(reportTable, {
     backgroundColor: "#ffffff",
     scale: 4, // high resolution
+    padding: 20
   }).then(async (canvas) => {
     // Convert canvas to blob
     canvas.toBlob(async (blob) => {
@@ -84,10 +93,10 @@ const reportTable = document.getElementById("reportTable");
 
   try {
     // Firestore me overwrite karo
-    await setDoc(doc(db, "data", "students"), { names: newNames });
+    await setDoc(doc(db, "data", section), { names: newNames });
 
     // save hone ke baad dubara firestore se fresh data fetch karo
-    const snap = await getDoc(doc(db, "data", "students"));
+    const snap = await getDoc(doc(db, "data", section));
     if (snap.exists()) {
       setStudents(snap.data().names || []);
     }
@@ -103,7 +112,14 @@ const reportTable = document.getElementById("reportTable");
 
   return (
     <div className="app-container">
+ <select value={section} onChange={e => setSection(e.target.value)}>
+        <option value="a">Section A</option>
+        <option value="b">Section B</option>
+        <option value="c">Section C</option>
+        <option value="d">Section D</option>
+        <option value="e">Section E</option>
 
+      </select>
       <button className="edit-btn" onClick={openEditor}>✏️ ناموں کی فہرست ترمیم کریں</button>
 
       {editing && (
@@ -117,8 +133,8 @@ const reportTable = document.getElementById("reportTable");
       )}
 
       <div className="table-wrapper" id="reportTable">
-        <img src="/daslogo.png" height={60}  alt="" />
-        <h6 >سیکشن "c" کی رپورٹ:       &nbsp;&nbsp;&nbsp;&nbsp;    &nbsp; تاریخ: {today}</h6>
+        <img src="/daslogo.png" height={56}  alt="" />
+        <h5 >سیکشن "c" کی رپورٹ:       &nbsp;&nbsp;&nbsp;&nbsp;    &nbsp; تاریخ: {today}</h5>
                   {loading && <div className="loader"></div>}
 
         <table  className="report-table">

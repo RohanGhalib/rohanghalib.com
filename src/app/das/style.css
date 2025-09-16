@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif;
+  font-family: "Alqalam";
   direction: rtl;
   background: #f4f6f9;
 }
@@ -39,7 +39,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 th, td {
@@ -58,7 +58,6 @@ th {
 select, input {
   padding: 3px;
   border-radius: 6px;
-  border: 1px solid #ccc;
   font-size: 14px;
   font-family: inherit;
   width: 100%;
@@ -105,7 +104,7 @@ select, input {
   100% { transform: rotate(360deg); }
 }
 
-input{
+select{
   text-align: center;
   font-size: 14px;
   border: none !important;
