@@ -11,8 +11,44 @@ function App() {
   const [csvText, setCsvText] = useState("");
   const [loading, setLoading] = useState(false);
   const [section, setSection] = useState("a"); // default section
+  const [authenticated, setAuthenticated] = useState(false);
+  const [tier, setTier] = useState(null);
 
- useEffect(() => {
+  useEffect(() => {
+    const username = prompt("Enter username:");
+    const password = prompt("Enter password to access the Hifz report:");
+
+    // Tier 1: full access
+    if (username === "das" && password === "das2024") {
+      setAuthenticated(true);
+      setTier(1);
+      return;
+    }
+
+    // Tier 2: section-limited access
+    // Example: section "b" user
+    const tier2Users = {
+      "userb": { password: "b2024", section: "b" },
+      "userc": { password: "c2024", section: "c" },
+      "userd": { password: "d2024", section: "d" },
+      "usere": { password: "e2024", section: "e" },
+      // add more users as needed
+    };
+
+    if (
+      tier2Users[username] &&
+      password === tier2Users[username].password
+    ) {
+      setAuthenticated(true);
+      setTier(2);
+      setSection(tier2Users[username].section);
+      return;
+    }
+    alert("Incorrect username or password. Access denied.");
+    window.location.href = "https://rohanghalib.com"; // Redirect to home or another page
+    }, []);
+
+  useEffect(() => {
     if (!section) return; // skip if no section selected
 
     const loadCsv = async () => {
@@ -112,13 +148,16 @@ const reportTable = document.getElementById("reportTable");
 
   return (
     <div className="app-container">
- <select value={section} onChange={e => setSection(e.target.value)}>
+      <select
+        value={section}
+        onChange={e => setSection(e.target.value)}
+        disabled={tier === 2}
+      >
         <option value="a">Section A</option>
         <option value="b">Section B</option>
         <option value="c">Section C</option>
         <option value="d">Section D</option>
         <option value="e">Section E</option>
-
       </select>
       <button className="edit-btn" onClick={openEditor}>✏️ ناموں کی فہرست ترمیم کریں</button>
 
@@ -135,7 +174,7 @@ const reportTable = document.getElementById("reportTable");
       <div className="table-wrapper" id="reportTable">
         <img src="/daslogo.png" height={56}  alt="" />
         <h5 >سیکشن "{section}" کی رپورٹ:       &nbsp;&nbsp;&nbsp;&nbsp;    &nbsp; تاریخ: {today}</h5>
-                  {loading && <div className="loader"></div>}
+        {loading && <div className="loader"></div>}
 
         <table  className="report-table">
           <thead>
@@ -147,12 +186,10 @@ const reportTable = document.getElementById("reportTable");
               <th>منزل</th>
               <th>مطالعہ</th>
               <th>ارقم بک</th>
-
             </tr>
           </thead>
 
           <tbody>
-
             {students.map((name, index) => (
               <tr key={index} className="fade-in">
                 <td>{index + 1}</td>
@@ -196,7 +233,7 @@ const reportTable = document.getElementById("reportTable");
             ))}
           </tbody>
         </table>
-            نوٹ: ✅ مکمل، ❌ نامکمل، ❗ بہتری کی ضرورت
+        نوٹ: ✅ مکمل، ❌ نامکمل، ❗ بہتری کی ضرورت
       </div>
 
       <button onClick={saveAsImage} className="save-btn">
