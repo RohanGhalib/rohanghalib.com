@@ -182,3 +182,11 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#E6C046", en
   color: rgb(39, 39, 39);
   font-weight: bolder;
 }
+.card-das{
+  background: #020024;
+background: linear-gradient(321deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
+}
+.card-das:hover{
+  background: #020024;
+background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
+}

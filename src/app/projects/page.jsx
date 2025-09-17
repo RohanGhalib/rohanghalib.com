@@ -25,6 +25,10 @@ export default function Projects() {
                             <h2 className='card-heading-dark '><i className="bi bi-notepad"></i> PublicNotePad</h2>
 
     </div></div>
+    <div className="col-lg-3 mt-3"> <div className="card-project card-das">
+                            <h2 className='card-heading-light '><i className="bi bi-notepad"></i>Dar-e-Arqam Reporting</h2>
+
+    </div></div>
  </div>
 </div>
 <Footer />

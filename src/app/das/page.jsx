@@ -45,16 +45,15 @@ function App() {
       return;
     }
     alert("Incorrect username or password. Access denied.");
-    window.location.href = "https://rohanghalib.com"; // Redirect to home or another page
+    window.location.href = "https://rohanghalib.com"; 
     }, []);
 
   useEffect(() => {
-    if (!section) return; // skip if no section selected
+    if (!section) return; 
 
     const loadCsv = async () => {
       setLoading(true);
       try {
-        // 🔑 Use section directly instead of "students"
         const docRef = doc(db, "data", section);
         const snap = await getDoc(docRef);
 
@@ -69,7 +68,7 @@ function App() {
     };
 
     loadCsv();
-  }, [section]); // re-run when section changes
+  }, [section]); 
 
 
 
