@@ -32,7 +32,8 @@ function App() {
       "userc": { password: "c2024", section: "c" },
       "userd": { password: "d2024", section: "d" },
       "usere": { password: "e2024", section: "e" },
-      // add more users as needed
+      "userf": { password: "f2024", section: "f" },
+
     };
 
     if (
@@ -157,6 +158,8 @@ const reportTable = document.getElementById("reportTable");
         <option value="c">Section C</option>
         <option value="d">Section D</option>
         <option value="e">Section E</option>
+        <option value="f">Section F</option>
+
       </select>
       <button className="edit-btn" onClick={openEditor}>✏️ ناموں کی فہرست ترمیم کریں</button>
 
