@@ -123,7 +123,7 @@ function App() {
 
     html2canvas(reportTable, {
       backgroundColor: "#ffffff",
-      scale: 4, // high resolution
+      scale: 2, // high resolution
       padding: 20
     }).then(async (canvas) => {
       canvas.toBlob(async (blob) => {
@@ -134,22 +134,10 @@ function App() {
         link.href = URL.createObjectURL(file);
         link.click();
 
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          try {
-            await navigator.share({
-              title: "Hifz Report",
-              text: "Here is the Hifz report 📄",
-              files: [file],
-            });
-            console.log("Shared successfully");
-          } catch (err) {
-            console.error("Sharing cancelled or failed:", err);
-          }
-        } else {
-          const imageURL = link.href;
-          const whatsappURL = "https://wa.me/?text=" + encodeURIComponent("Check this Hifz report 👇\n" + imageURL);
-          window.open(whatsappURL, "_blank");
-        }
+        // The image is already downloaded to the user's device via the link above.
+        // You cannot programmatically attach a file from the user's downloads folder due to browser security restrictions.
+        // Advise the user to manually attach the downloaded image when sharing via WhatsApp or other apps.
+        alert("Image Saved to Gallery!");
       });
     });
   };
