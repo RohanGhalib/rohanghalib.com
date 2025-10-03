@@ -13,6 +13,8 @@ function App() {
     LONG: "پارے کا ٹیسٹ 📃",
     REVISION: "غیرحاظر ⚠️",
     HOLIDAY: "کچھ نہیں سنایا ❌",
+    LEAVE: "رخصت پر ہیں 💊",
+
   };
   // rows: { name, sabaq, sabqi, manzil, mutala, arqam }
   const [rows, setRows] = useState([]);
@@ -123,8 +125,8 @@ function App() {
 
     html2canvas(reportTable, {
       backgroundColor: "#ffffff",
-      scale: 2, // high resolution
-      padding: 20
+      scale: 4, // high resolution
+      padding: 50,
     }).then(async (canvas) => {
       canvas.toBlob(async (blob) => {
         const file = new File([blob], `hifz-report-${today}.png`, { type: "image/png" });
