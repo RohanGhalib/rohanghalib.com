@@ -9,10 +9,10 @@ function App() {
   const today = new Date().toISOString().slice(0, 10);
      // A lookup table for special options
   const specialOptions = {
-    تیاری: "پارے کی تیاری ⌚",
-    ٹیست: "پارے کا ٹیسٹ 📃",
-    غیرحاظر: "غیرحاظر ⚠️",
-    کچھنہیں: "کچھ نہیں سنایا ❌",
+    SPECIAL: "پارے کی تیاری ⌚",
+    LONG: "پارے کا ٹیسٹ 📃",
+    REVISION: "غیرحاظر ⚠️",
+    HOLIDAY: "کچھ نہیں سنایا ❌",
   };
   // rows: { name, sabaq, sabqi, manzil, mutala, arqam }
   const [rows, setRows] = useState([]);
@@ -219,7 +219,7 @@ function App() {
         </div>
       )}
 
-      <div className="table-wrapper" id="reportTable" style={{ background: "#fff", borderRadius: 12, boxShadow: "0 2px 12px #eee", padding: 24, marginTop: 24 }}>
+      <div className="table-wrapper" id="reportTable" style={{ background: "#fff", borderRadius: 12, boxShadow: "0 2px 12px #eee", padding: 2, marginTop: 24 }}>
         <img src="/daslogo.png" height={56} alt="" style={{ marginBottom: 12 }} />
         <h5 style={{ marginBottom: 18, fontWeight: 600, fontSize: 18 }}>
           سیکشن "{section}" کی رپورٹ: &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; تاریخ: {today}
@@ -255,18 +255,20 @@ function App() {
 
       {row.isSpecial ? (
         <td colSpan={5} style={{ textAlign: "center", fontWeight: "bold" }}>
-          <select name=""  onChange={(e) => handleChange(index, "sabaq", e.target.value)} >
-            {Object.keys(specialOptions).map((key) => (
-              <option key={key} value={key}>
-                {specialOptions[key]}
-                
-              </option>
-            ))}
-            <option value="✅">✅</option>
-            <option value="❌">❌</option>
-            <option value="❗">❗</option>
-          </select>
-        </td>
+    <select
+      value={row.sabaq}   // ✅ This makes it controlled
+      onChange={(e) => handleChange(index, "sabaq", e.target.value)}
+    >
+      {Object.keys(specialOptions).map((key) => (
+        <option key={key} value={key}>
+          {specialOptions[key]}
+        </option>
+      ))}
+      <option value="✅">✅</option>
+      <option value="❌">❌</option>
+      <option value="❗">❗</option>
+    </select>
+  </td>
       ) : (
         <>
           {/* Sabaq select with all options */}
@@ -279,10 +281,11 @@ function App() {
               <option value="❌">❌</option>
               <option value="❗">❗</option>
               {Object.keys(specialOptions).map((key) => (
-                <option key={key} value={key}>
-                  {key}
-                </option>
-              ))}
+              <option key={specialOptions[key]} value={key}>
+                {specialOptions[key]}
+                
+              </option>
+            ))}
             </select>
           </td>
 
