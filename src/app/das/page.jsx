@@ -4,15 +4,34 @@ import html2canvas from "html2canvas";
 import { db } from "./firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import "./style.css";
+
 function App() {
   const today = new Date().toISOString().slice(0, 10);
-  const [students, setStudents] = useState([]);
+     // A lookup table for special options
+  const specialOptions = {
+    تیاری: "پارے کی تیاری ⌚",
+    ٹیست: "پارے کا ٹیسٹ 📃",
+    غیرحاظر: "غیرحاظر ⚠️",
+    کچھنہیں: "کچھ نہیں سنایا ❌",
+  };
+  // rows: { name, sabaq, sabqi, manzil, mutala, arqam }
+  const [rows, setRows] = useState([]);
   const [editing, setEditing] = useState(false);
   const [csvText, setCsvText] = useState("");
   const [loading, setLoading] = useState(false);
   const [section, setSection] = useState("a"); // default section
   const [authenticated, setAuthenticated] = useState(false);
   const [tier, setTier] = useState(null);
+
+  // Helper defaults
+  const defaultRowForName = (name) => ({
+    name,
+    sabaq: "✅",
+    sabqi: "✅",
+    manzil: "✅",
+    mutala: "✅",
+    arqam: "✅",
+  });
 
   useEffect(() => {
     const username = prompt("Enter username:");
@@ -26,15 +45,14 @@ function App() {
     }
 
     // Tier 2: section-limited access
-    // Example: section "b" user
     const tier2Users = {
       "userb": { password: "b2024", section: "b" },
       "userc": { password: "c2024", section: "c" },
       "userd": { password: "d2024", section: "d" },
       "usere": { password: "e2024", section: "e" },
       "userf": { password: "f2024", section: "f" },
-
     };
+ 
 
     if (
       tier2Users[username] &&
@@ -46,11 +64,11 @@ function App() {
       return;
     }
     alert("Incorrect username or password. Access denied.");
-    window.location.href = "https://rohanghalib.com"; 
-    }, []);
+    window.location.href = "https://rohanghalib.com";
+  }, []);
 
   useEffect(() => {
-    if (!section) return; 
+    if (!section) return;
 
     const loadCsv = async () => {
       setLoading(true);
@@ -59,9 +77,11 @@ function App() {
         const snap = await getDoc(docRef);
 
         if (snap.exists()) {
-          setStudents(snap.data().names || []);
+          const names = snap.data().names || [];
+          // convert names to rows with defaults
+          setRows(names.map(n => defaultRowForName(n)));
         } else {
-          setStudents([]);
+          setRows([]);
         }
       } finally {
         setLoading(false);
@@ -69,82 +89,102 @@ function App() {
     };
 
     loadCsv();
-  }, [section]); 
+  }, [section]);
+
+  const handleChange = (index, field, value) => {
+  setRows((prev) => {
+    const updated = [...prev];
+    const row = { ...updated[index] };
+
+    if (field === "sabaq") {
+      row.sabaq = value;
+
+      if (specialOptions[value]) {
+        row.isSpecial = true;
+        row.specialText = specialOptions[value];
+      } else {
+        row.isSpecial = false;
+        row.specialText = null;
+      }
+    } else {
+      row[field] = value;
+    }
+
+    updated[index] = row;
+    return updated;
+  });
+};
 
 
 
   // Save PNG
   const saveAsImage = () => {
-const reportTable = document.getElementById("reportTable");
+    const reportTable = document.getElementById("reportTable");
 
-  html2canvas(reportTable, {
-    backgroundColor: "#ffffff",
-    scale: 4, // high resolution
-    padding: 20
-  }).then(async (canvas) => {
-    // Convert canvas to blob
-    canvas.toBlob(async (blob) => {
-      // Create a file from the blob
-      const file = new File([blob], `hifz-report-${today}.png`, { type: "image/png" });
+    html2canvas(reportTable, {
+      backgroundColor: "#ffffff",
+      scale: 4, // high resolution
+      padding: 20
+    }).then(async (canvas) => {
+      canvas.toBlob(async (blob) => {
+        const file = new File([blob], `hifz-report-${today}.png`, { type: "image/png" });
 
-      // Trigger download
-      const link = document.createElement("a");
-      link.download = file.name;
-      link.href = URL.createObjectURL(file);
-      link.click();
+        const link = document.createElement("a");
+        link.download = file.name;
+        link.href = URL.createObjectURL(file);
+        link.click();
 
-      // Try sharing via Web Share API (Android/iOS)
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({
-            title: "Hifz Report",
-            text: "Here is the Hifz report 📄",
-            files: [file],
-          });
-          console.log("Shared successfully");
-        } catch (err) {
-          console.error("Sharing cancelled or failed:", err);
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              title: "Hifz Report",
+              text: "Here is the Hifz report 📄",
+              files: [file],
+            });
+            console.log("Shared successfully");
+          } catch (err) {
+            console.error("Sharing cancelled or failed:", err);
+          }
+        } else {
+          const imageURL = link.href;
+          const whatsappURL = "https://wa.me/?text=" + encodeURIComponent("Check this Hifz report 👇\n" + imageURL);
+          window.open(whatsappURL, "_blank");
         }
-      } else {
-        // Fallback: share image as link (desktop)
-        const imageURL = link.href;
-        const whatsappURL = "https://wa.me/?text=" + encodeURIComponent("Check this Hifz report 👇\n" + imageURL);
-        window.open(whatsappURL, "_blank");
-      }
+      });
     });
-  });
   };
 
-  // Open CSV editor
+  // Open CSV editor (edit names only)
   const openEditor = () => {
     setEditing(true);
-    setCsvText(students.join("\n"));
+    setCsvText(rows.map(r => r.name).join("\n"));
   };
 
-   const saveCsv = async () => {
-  const newNames = csvText.split("\n").map(n => n.trim()).filter(Boolean);
+  // Save CSV (names only to Firestore), then rebuild rows with defaults
+  const saveCsv = async () => {
+    const newNames = csvText.split("\n").map(n => n.trim()).filter(Boolean);
 
-  setEditing(false);
-  setLoading(true);
+    setEditing(false);
+    setLoading(true);
 
-  try {
-    // Firestore me overwrite karo
-    await setDoc(doc(db, "data", section), { names: newNames });
+    try {
+      await setDoc(doc(db, "data", section), { names: newNames });
 
-    // save hone ke baad dubara firestore se fresh data fetch karo
-    const snap = await getDoc(doc(db, "data", section));
-    if (snap.exists()) {
-      setStudents(snap.data().names || []);
+      // refresh rows from saved names
+      const snap = await getDoc(doc(db, "data", section));
+      if (snap.exists()) {
+        const names = snap.data().names || [];
+        setRows(names.map(n => defaultRowForName(n)));
+      }
+
+      console.log("Saved ✅");
+    } catch (err) {
+      alert("Save failed ❌");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-
-    console.log("Saved ✅");
-  } catch (err) {
-    alert("Save failed ❌");
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   return (
     <div className="app-container">
@@ -152,6 +192,7 @@ const reportTable = document.getElementById("reportTable");
         value={section}
         onChange={e => setSection(e.target.value)}
         disabled={tier === 2}
+        style={{ marginBottom: 16, padding: "6px 12px", fontSize: 16, borderRadius: 6 }}
       >
         <option value="a">Section A</option>
         <option value="b">Section B</option>
@@ -159,86 +200,147 @@ const reportTable = document.getElementById("reportTable");
         <option value="d">Section D</option>
         <option value="e">Section E</option>
         <option value="f">Section F</option>
-
       </select>
-      <button className="edit-btn" onClick={openEditor}>✏️ ناموں کی فہرست ترمیم کریں</button>
+      <button className="edit-btn" onClick={openEditor} style={{ marginLeft: 12, padding: "6px 16px", borderRadius: 6 }}>
+        ✏️ ناموں کی فہرست ترمیم کریں
+      </button>
 
       {editing && (
-        <div className="csv-editor">
-          <textarea className="csv-textarea"
+        <div className="csv-editor" style={{ margin: "20px 0", background: "#f9f9f9", padding: 16, borderRadius: 8 }}>
+          <textarea
+            className="csv-textarea"
             value={csvText}
             onChange={(e) => setCsvText(e.target.value)}
+            style={{ width: "100%", minHeight: 120, fontSize: 16, padding: 8, borderRadius: 6, border: "1px solid #ccc" }}
           ></textarea>
-          <button className="save-btn" onClick={saveCsv}>💾 فہرست محفوظ کریں</button>
+          <button className="save-btn" onClick={saveCsv} style={{ marginTop: 10, padding: "6px 16px", borderRadius: 6 }}>
+            💾 فہرست محفوظ کریں
+          </button>
         </div>
       )}
 
-      <div className="table-wrapper" id="reportTable">
-        <img src="/daslogo.png" height={56}  alt="" />
-        <h5 >سیکشن "{section}" کی رپورٹ:       &nbsp;&nbsp;&nbsp;&nbsp;    &nbsp; تاریخ: {today}</h5>
+      <div className="table-wrapper" id="reportTable" style={{ background: "#fff", borderRadius: 12, boxShadow: "0 2px 12px #eee", padding: 24, marginTop: 24 }}>
+        <img src="/daslogo.png" height={56} alt="" style={{ marginBottom: 12 }} />
+        <h5 style={{ marginBottom: 18, fontWeight: 600, fontSize: 18 }}>
+          سیکشن "{section}" کی رپورٹ: &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; تاریخ: {today}
+        </h5>
         {loading && <div className="loader"></div>}
 
-        <table  className="report-table">
+        <table className="report-table" style={{
+          width: "100%",
+          borderCollapse: "collapse",
+          fontSize: 16,
+          background: "#fafcff",
+          borderRadius: 8,
+          overflow: "hidden",
+          boxShadow: "0 1px 4px #ddd"
+        }}>
           <thead>
-            <tr>
-              <th>#</th>
-              <th>نام</th>
-              <th>سبق</th>
-              <th>سبقی</th>
-              <th>منزل</th>
-              <th>مطالعہ</th>
-              <th>ارقم بک</th>
+            <tr style={{ background: "#e3eafc" }}>
+              <th style={{ padding: "10px 8px", border: "1px solid #dbeafe", fontWeight: 700 }}>#</th>
+              <th style={{ padding: "10px 8px", border: "1px solid #dbeafe", fontWeight: 700 }}>نام</th>
+              <th style={{ padding: "10px 8px", border: "1px solid #dbeafe", fontWeight: 700 }}>سبق</th>
+              <th style={{ padding: "10px 8px", border: "1px solid #dbeafe", fontWeight: 700 }}>سبقی</th>
+              <th style={{ padding: "10px 8px", border: "1px solid #dbeafe", fontWeight: 700 }}>منزل</th>
+              <th style={{ padding: "10px 8px", border: "1px solid #dbeafe", fontWeight: 700 }}>مطالعہ</th>
+              <th style={{ padding: "10px 8px", border: "1px solid #dbeafe", fontWeight: 700 }}>ارقم بک</th>
             </tr>
           </thead>
 
-          <tbody>
-            {students.map((name, index) => (
-              <tr key={index} className="fade-in">
-                <td>{index + 1}</td>
-                <td>{name}</td>
-                <td>
-                  <select className="input">
-                    <option>✅</option>
-                    <option>❌</option>
-                    <option>❗</option>
-                  </select>
-                </td>
-                <td>
-                  <select className="input">
-                   <option>✅</option>
-                    <option>❌</option>
-                    <option>❗</option>
-                  </select>
-                </td>
-                <td>
-                  <select className="input">
-                    <option>✅</option>
-                    <option>❌</option>
-                    <option>❗</option>
-                  </select>
-                </td>
-                <td>
-                  <select className="input">
-                    <option>✅</option>
-                    <option>❌</option>
-                    <option>❗</option>
-                  </select>
-                </td>
-                <td>
-                  <select className="input">
-                    <option>✅</option>
-                    <option>❌</option>
-                    <option>❗</option>
-                  </select>
-                </td>
-              </tr>
+        <tbody>
+  {rows.map((row, index) => (
+    <tr key={index}>
+      <td>{index + 1}</td>
+      <td>{row.name}</td>
+
+      {row.isSpecial ? (
+        <td colSpan={5} style={{ textAlign: "center", fontWeight: "bold" }}>
+          <select name=""  onChange={(e) => handleChange(index, "sabaq", e.target.value)} >
+            {Object.keys(specialOptions).map((key) => (
+              <option key={key} value={key}>
+                {specialOptions[key]}
+                
+              </option>
             ))}
-          </tbody>
+            <option value="✅">✅</option>
+            <option value="❌">❌</option>
+            <option value="❗">❗</option>
+          </select>
+        </td>
+      ) : (
+        <>
+          {/* Sabaq select with all options */}
+          <td>
+            <select
+              value={row.sabaq}
+              onChange={(e) => handleChange(index, "sabaq", e.target.value)}
+            >
+              <option value="✅">✅</option>
+              <option value="❌">❌</option>
+              <option value="❗">❗</option>
+              {Object.keys(specialOptions).map((key) => (
+                <option key={key} value={key}>
+                  {key}
+                </option>
+              ))}
+            </select>
+          </td>
+
+          {/* Normal other columns */}
+          <td>
+            <select
+              value={row.sabqi}
+              onChange={(e) => handleChange(index, "sabqi", e.target.value)}
+            >
+              <option value="✅">✅</option>
+              <option value="❌">❌</option>
+              <option value="❗">❗</option>
+            </select>
+          </td>
+          <td>
+            <select
+              value={row.manzil}
+              onChange={(e) => handleChange(index, "manzil", e.target.value)}
+            >
+              <option value="✅">✅</option>
+              <option value="❌">❌</option>
+              <option value="❗">❗</option>
+            </select>
+          </td>
+          <td>
+            <select
+              value={row.mutala}
+              onChange={(e) => handleChange(index, "mutala", e.target.value)}
+            >
+              <option value="✅">✅</option>
+              <option value="❌">❌</option>
+              <option value="❗">❗</option>
+            </select>
+          </td>
+          <td>
+            <select
+              value={row.arqam}
+              onChange={(e) => handleChange(index, "arqam", e.target.value)}
+            >
+              <option value="✅">✅</option>
+              <option value="❌">❌</option>
+              <option value="❗">❗</option>
+            </select>
+          </td>
+        </>
+      )}
+    </tr>
+  ))}
+</tbody>
+
         </table>
-        نوٹ: ✅ مکمل، ❌ نامکمل، ❗ بہتری کی ضرورت
+
+        <div style={{ marginTop: 12, fontSize: 15, color: "#555" }}>
+          نوٹ: ✅ مکمل، ❌ نامکمل، ❗ بہتری کی ضرورت
+        </div>
       </div>
 
-      <button onClick={saveAsImage} className="save-btn">
+      <button onClick={saveAsImage} className="save-btn" style={{ marginTop: 24, padding: "8px 20px", fontSize: 17, borderRadius: 8 }}>
         📥 Save Report
       </button>
     </div>
