@@ -280,8 +280,8 @@ export default function DailyDiaryGenerator() {
          <div className="d-flex align-items-center gap-3">
           <SchoolIcon />
           <div>
-           <h2 className="h5 fw-bold mb-0">{schoolName}</h2>
-           <p className="text-muted mb-0 small">Satellite Town Campus</p>
+           <h2 className="h6 fw-bold mb-0">{schoolName}</h2>
+           <p className="text-muted mb-0 small">Daily Diary Report</p>
           </div>
          </div>
          <div className="text-end">
