@@ -195,3 +195,7 @@ background: linear-gradient(321deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%,
   background: #020024;
 background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
 }
+.card-keyboard{
+  background: #1f1f1f;
+  
+}
