@@ -1,0 +1,200 @@
+/* style.css */
+
+/* --- Main App Container & Body --- */
+body {
+  background-color: #f8f9fa; /* Softer background for the whole page */
+}
+
+.app-container {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  max-width: 500px; /* Optimal width for mobile-centric view */
+  margin: 0 auto;
+  padding-bottom: 2rem; /* Add space at the bottom */
+}
+
+/* --- Header --- */
+.app-container header h1 {
+  color: #2c3e50;
+}
+
+/* --- Fluid Tab Navigation --- */
+.nav-fluid {
+  background-color: #e9ecef;
+  border-radius: 50px; /* Fully rounded blue background pill */
+  padding: 5px;
+  position: relative;
+  /* CSS variables will be set by React to control the pill */
+  --pill-offset: 5px; 
+  --pill-width: calc(50% - 5px);
+  --pill-transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); /* Bouncy transition */
+}
+
+/* White sliding pill */
+.nav-fluid::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 0;
+  height: calc(100% - 10px);
+  width: var(--pill-width);
+  background-color: #ffffff;
+  border-radius: 50px; /* Ensure white pill is also fully rounded */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateX(var(--pill-offset));
+  transition: var(--pill-transition);
+  z-index: 0; /* Place it behind the text */
+}
+
+/* Tab text links */
+.nav-fluid .nav-link {
+  background-color: transparent !important; /* This is the key fix to remove Bootstrap's blue pill */
+  border: none;
+  color: #6c757d;
+  font-weight: 600;
+  position: relative; /* Needed for z-index to work */
+  z-index: 1; /* This ensures text is ABOVE the white pill */
+  transition: color 0.3s ease;
+  padding: 0.75rem 1rem;
+}
+
+.nav-fluid .nav-link.active {
+  color: #212529; /* Changed from blue to a dark grey for a more subtle active state */
+  transition-delay: 0.1s; 
+}
+
+/* --- Content Panes --- */
+.tab-content {
+  overflow: hidden; 
+}
+.tab-pane {
+    padding-top: 1rem;
+}
+
+
+/* --- Form Styling --- */
+.card-form {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  border: 1px solid #dee2e6;
+}
+
+.form-label {
+    color: #495057;
+}
+
+.form-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #343a40;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    transition: all 0.2s ease-in-out;
+}
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    border-color: #86b7fe;
+}
+
+.subject-item {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid #e9ecef;
+}
+
+.add-subject-section {
+    background-color: #fff;
+    border: 1px dashed #ced4da;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+
+/* --- Diary Preview --- */
+.diary-preview-content {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  border: 1px solid #dee2e6;
+}
+
+.school-icon {
+    width: 40px;
+    height: 40px;
+    color: #0d6efd; 
+}
+
+.diary-table th {
+    background-color: #f1f3f5;
+    color: #343a40;
+    font-weight: 600;
+}
+.diary-table td, .diary-table th {
+    vertical-align: middle;
+}
+
+.announcement-box {
+  background-color: #fff3cd;
+  color: #664d03;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ffecb5;
+  white-space: pre-wrap;
+}
+
+/* --- Buttons --- */
+.btn {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.2s ease;
+}
+
+/* Container for the download button to control its width */
+.download-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.btn-download {
+    background-image: linear-gradient(to right, #353992, #353992);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+    
+    border-radius: 50px; /* Fully rounded pill shape */
+    width: var(--pill-width);
+
+}
+.btn-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.3);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-sm.btn-outline-danger {
+    border-radius: 50px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
