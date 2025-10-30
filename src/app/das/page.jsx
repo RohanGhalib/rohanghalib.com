@@ -184,12 +184,12 @@ function App() {
         disabled={tier === 2}
         style={{ marginBottom: 16, padding: "6px 12px", fontSize: 16, borderRadius: 6 }}
       >
-        <option value="a">Section A</option>
-        <option value="b">Section B</option>
-        <option value="c">Section C</option>
-        <option value="d">Section D</option>
-        <option value="e">Section A (Girls)</option>
-        <option value="f">Section B (Girls)</option>
+        <option value="a">سیکشن "A"</option>
+        <option value="b">سیکشن "B"</option>
+        <option value="c">سیکشن "C"</option>
+        <option value="d">سیکشن "D"</option>
+        <option value="e">سیکشن "A" (Girls)</option>
+        <option value="f">سیکشن "B" (Girls)</option>
       </select>
       <button className="edit-btn" onClick={openEditor} style={{ marginLeft: 12, padding: "6px 16px", borderRadius: 6 }}>
         ✏️ ناموں کی فہرست ترمیم کریں
