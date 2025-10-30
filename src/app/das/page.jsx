@@ -188,8 +188,8 @@ function App() {
         <option value="b">Section B</option>
         <option value="c">Section C</option>
         <option value="d">Section D</option>
-        <option value="e">Section E</option>
-        <option value="f">Section F</option>
+        <option value="e">Section A (Girls)</option>
+        <option value="f">Section B (Girls)</option>
       </select>
       <button className="edit-btn" onClick={openEditor} style={{ marginLeft: 12, padding: "6px 16px", borderRadius: 6 }}>
         ✏️ ناموں کی فہرست ترمیم کریں
