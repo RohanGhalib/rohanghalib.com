@@ -186,7 +186,6 @@ const quotes = [
       setActiveTab('edit');
     }
     
-    // Reset the starting touch position.
     touchStartRef.current = null;
   };
 
@@ -201,14 +200,13 @@ const quotes = [
      return;
    }
    const originalTab = activeTab;
-   // Temporarily switch to the preview tab to ensure it's rendered for the screenshot.
+ 
    setActiveTab('preview');
 
-   // Use a short timeout to allow the DOM to update before taking the screenshot.
    setTimeout(() => {
      html2canvas(diaryRef.current, {
        scale: 2.5,
-       padding: 10, // Higher scale for better image quality
+       padding: 10, 
        useCORS: true,
        backgroundColor: '#ffffff'
      }).then(canvas => {
@@ -219,7 +217,7 @@ const quotes = [
      }).catch(err => {
        console.error("Image generation failed!", err);
      }).finally(() => {
-       // Switch back to the original tab after the process is complete.
+       
        setActiveTab(originalTab);
      });
    }, 100);
