@@ -1,20 +1,17 @@
 "use client";
 
-// 1. Check your imports! 
-// If firebase.js is in the folder ABOVE this one, use "../firebase"
 import { useState, useEffect } from "react";
 import html2canvas from "html2canvas";
-import { db } from "./firebase"; // <--- CHANGE THIS if firebase is in a different folder
+import { db } from "./firebase"; 
 import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
-import "./style.css"; // <--- Ensure this file exists in the same folder
+import "./style.css"; 
 
-// 2. Renamed function to 'Page' to satisfy Next.js conventions
 export default function Page() {
   const today = new Date().toISOString().slice(0, 10);
 
   // --- CONFIGURATION ---
-  const BOYS_PASSWORD = "das";   
-  const GIRLS_PASSWORD = "girls"; 
+  const BOYS_PASSWORD = "stcboys";   
+  const GIRLS_PASSWORD = "stcgirls"; 
   // ---------------------
 
   const specialOptions = {
@@ -25,13 +22,20 @@ export default function Page() {
     LEAVE: "رخصت پر ہیں 💊",
   };
 
+  // State
   const [rows, setRows] = useState([]);
   const [editing, setEditing] = useState(false);
   const [csvText, setCsvText] = useState("");
   const [loading, setLoading] = useState(false);
+  
+  // Auth & Section State
   const [availableSections, setAvailableSections] = useState([]); 
   const [section, setSection] = useState(""); 
   const [authenticated, setAuthenticated] = useState(false);
+  
+  // Login UI State
+  const [passwordInput, setPasswordInput] = useState("");
+  const [loginError, setLoginError] = useState("");
 
   const defaultRowForName = (name) => ({
     name,
@@ -42,69 +46,64 @@ export default function Page() {
     arqam: "✅",
   });
 
-  useEffect(() => {
-    // Only run this in the browser
-    if (typeof window === "undefined") return;
+  // --- LOGIN LOGIC ---
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoginError("");
+    setLoading(true);
 
-    const checkAuthAndLoad = async () => {
-      // Small timeout to ensure React creates the UI before prompt blocks it
-      await new Promise(r => setTimeout(r, 100));
-      
-      const password = window.prompt("Enter Access Password:");
-      
-      let isGirlsMode = false;
+    let isGirlsMode = false;
 
-      if (password === GIRLS_PASSWORD) {
-        isGirlsMode = true;
-      } else if (password === BOYS_PASSWORD) {
-        isGirlsMode = false;
-      } else {
-        alert("Incorrect password. Access denied.");
-        window.location.href = "https://rohanghalib.com";
-        return;
+    if (passwordInput === GIRLS_PASSWORD) {
+      isGirlsMode = true;
+    } else if (passwordInput === BOYS_PASSWORD) {
+      isGirlsMode = false;
+    } else {
+      setLoginError("Incorrect password. Please try again.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const querySnapshot = await getDocs(collection(db, "data"));
+      const validSections = [];
+
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const isGirlSection = data.girl === true;
+        const displayTitle = data.title || docSnap.id.toUpperCase(); 
+
+        const sectionObj = {
+          id: docSnap.id,
+          title: displayTitle
+        };
+
+        if (isGirlsMode && isGirlSection) {
+          validSections.push(sectionObj);
+        } else if (!isGirlsMode && !isGirlSection) {
+          validSections.push(sectionObj);
+        }
+      });
+
+      // Sort alphabetically
+      validSections.sort((a, b) => a.title.localeCompare(b.title));
+      setAvailableSections(validSections);
+
+      // Select first section
+      if (validSections.length > 0) {
+        setSection(validSections[0].id);
       }
 
       setAuthenticated(true);
-      setLoading(true);
+    } catch (error) {
+      console.error("Error loading sections:", error);
+      setLoginError("Error connecting to database. Check internet.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      try {
-        const querySnapshot = await getDocs(collection(db, "data"));
-        const validSections = [];
-
-        querySnapshot.forEach((docSnap) => {
-          const data = docSnap.data();
-          const isGirlSection = data.girl === true;
-          const displayTitle = data.title || docSnap.id.toUpperCase(); 
-
-          const sectionObj = {
-            id: docSnap.id,
-            title: displayTitle
-          };
-
-          if (isGirlsMode && isGirlSection) {
-            validSections.push(sectionObj);
-          } else if (!isGirlsMode && !isGirlSection) {
-            validSections.push(sectionObj);
-          }
-        });
-
-        validSections.sort((a, b) => a.title.localeCompare(b.title));
-        setAvailableSections(validSections);
-
-        if (validSections.length > 0) {
-          setSection(validSections[0].id);
-        }
-      } catch (error) {
-        console.error("Error loading sections:", error);
-        alert("Error loading sections from database. Check console.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkAuthAndLoad();
-  }, []);
-
+  // Load Names when Section Changes
   useEffect(() => {
     if (!section) return;
 
@@ -205,8 +204,83 @@ export default function Page() {
     return found ? found.title : section;
   };
 
-  if (!authenticated) return <div className="loader" style={{margin:"50px auto"}}></div>;
+  // --- RENDER: LOGIN SCREEN ---
+  if (!authenticated) {
+    return (
+      <div style={{ 
+        display: "flex", 
+        justifyContent: "center", 
+        alignItems: "center", 
+        height: "100vh", 
+        background: "#f0f2f5",
+        fontFamily: "Arial, sans-serif"
+      }}>
+        <div style={{
+          background: "white",
+          padding: "40px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          width: "100%",
+          maxWidth: "400px",
+          textAlign: "center"
+        }}>
+          <img src="/daslogo.png" height={50} alt="Logo" style={{ marginBottom: 20 }} />
+          <h2 style={{ marginBottom: 20, color: "#333" }}>Hifz Report Login</h2>
+          
+          <form onSubmit={handleLogin}>
+            <input 
+              type="password" 
+              placeholder="Enter Access Password" 
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "12px",
+                fontSize: "16px",
+                border: "1px solid #ddd",
+                borderRadius: "6px",
+                marginBottom: "12px",
+                boxSizing: "border-box"
+              }}
+            />
+            
+            <button 
+              type="submit" 
+              disabled={loading}
+              style={{
+                width: "100%",
+                padding: "12px",
+                background: "#007bff",
+                color: "white",
+                border: "none",
+                borderRadius: "6px",
+                fontSize: "16px",
+                cursor: loading ? "wait" : "pointer",
+                opacity: loading ? 0.7 : 1
+              }}
+            >
+              {loading ? "Verifying..." : "Login"}
+            </button>
+          </form>
 
+          {loginError && (
+            <div style={{ 
+              marginTop: "16px", 
+              color: "#dc3545", 
+              fontSize: "14px", 
+              background: "#ffe6e6", 
+              padding: "10px", 
+              borderRadius: "4px" 
+            }}>
+              {loginError}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // --- RENDER: MAIN APP ---
   return (
     <div className="app-container">
       <select
