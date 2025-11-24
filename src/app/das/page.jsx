@@ -1,31 +1,38 @@
 "use client";
+
+// 1. Check your imports! 
+// If firebase.js is in the folder ABOVE this one, use "../firebase"
 import { useState, useEffect } from "react";
 import html2canvas from "html2canvas";
-import { db } from "./firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import "./style.css";
+import { db } from "./firebase"; // <--- CHANGE THIS if firebase is in a different folder
+import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
+import "./style.css"; // <--- Ensure this file exists in the same folder
 
-function App() {
+// 2. Renamed function to 'Page' to satisfy Next.js conventions
+export default function Page() {
   const today = new Date().toISOString().slice(0, 10);
-     // A lookup table for special options
+
+  // --- CONFIGURATION ---
+  const BOYS_PASSWORD = "das";   
+  const GIRLS_PASSWORD = "girls"; 
+  // ---------------------
+
   const specialOptions = {
     SPECIAL: "پارے کی تیاری ⌚",
     LONG: "پارے کا ٹیسٹ 📃",
     REVISION: "غیرحاظر ⚠️",
     HOLIDAY: "کچھ نہیں سنایا ❌",
     LEAVE: "رخصت پر ہیں 💊",
-
   };
-  // rows: { name, sabaq, sabqi, manzil, mutala, arqam }
+
   const [rows, setRows] = useState([]);
   const [editing, setEditing] = useState(false);
   const [csvText, setCsvText] = useState("");
   const [loading, setLoading] = useState(false);
-  const [section, setSection] = useState("a"); // default section
+  const [availableSections, setAvailableSections] = useState([]); 
+  const [section, setSection] = useState(""); 
   const [authenticated, setAuthenticated] = useState(false);
-  const [tier, setTier] = useState(null);
 
-  // Helper defaults
   const defaultRowForName = (name) => ({
     name,
     sabaq: "✅",
@@ -36,37 +43,66 @@ function App() {
   });
 
   useEffect(() => {
-    const username = prompt("Enter username:");
-    const password = prompt("Enter password to access the Hifz report:");
+    // Only run this in the browser
+    if (typeof window === "undefined") return;
 
-    // Tier 1: full access
-    if (username === "das" && password === "das2024") {
+    const checkAuthAndLoad = async () => {
+      // Small timeout to ensure React creates the UI before prompt blocks it
+      await new Promise(r => setTimeout(r, 100));
+      
+      const password = window.prompt("Enter Access Password:");
+      
+      let isGirlsMode = false;
+
+      if (password === GIRLS_PASSWORD) {
+        isGirlsMode = true;
+      } else if (password === BOYS_PASSWORD) {
+        isGirlsMode = false;
+      } else {
+        alert("Incorrect password. Access denied.");
+        window.location.href = "https://rohanghalib.com";
+        return;
+      }
+
       setAuthenticated(true);
-      setTier(1);
-      return;
-    }
+      setLoading(true);
 
-    // Tier 2: section-limited access
-    const tier2Users = {
-      "userb": { password: "b2024", section: "b" },
-      "userc": { password: "c2024", section: "c" },
-      "userd": { password: "d2024", section: "d" },
-      "usere": { password: "e2024", section: "e" },
-      "userf": { password: "f2024", section: "f" },
+      try {
+        const querySnapshot = await getDocs(collection(db, "data"));
+        const validSections = [];
+
+        querySnapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          const isGirlSection = data.girl === true;
+          const displayTitle = data.title || docSnap.id.toUpperCase(); 
+
+          const sectionObj = {
+            id: docSnap.id,
+            title: displayTitle
+          };
+
+          if (isGirlsMode && isGirlSection) {
+            validSections.push(sectionObj);
+          } else if (!isGirlsMode && !isGirlSection) {
+            validSections.push(sectionObj);
+          }
+        });
+
+        validSections.sort((a, b) => a.title.localeCompare(b.title));
+        setAvailableSections(validSections);
+
+        if (validSections.length > 0) {
+          setSection(validSections[0].id);
+        }
+      } catch (error) {
+        console.error("Error loading sections:", error);
+        alert("Error loading sections from database. Check console.");
+      } finally {
+        setLoading(false);
+      }
     };
- 
 
-    if (
-      tier2Users[username] &&
-      password === tier2Users[username].password
-    ) {
-      setAuthenticated(true);
-      setTier(2);
-      setSection(tier2Users[username].section);
-      return;
-    }
-    alert("Incorrect username or password. Access denied.");
-    window.location.href = "https://rohanghalib.com";
+    checkAuthAndLoad();
   }, []);
 
   useEffect(() => {
@@ -80,7 +116,6 @@ function App() {
 
         if (snap.exists()) {
           const names = snap.data().names || [];
-          // convert names to rows with defaults
           setRows(names.map(n => defaultRowForName(n)));
         } else {
           setRows([]);
@@ -94,79 +129,68 @@ function App() {
   }, [section]);
 
   const handleChange = (index, field, value) => {
-  setRows((prev) => {
-    const updated = [...prev];
-    const row = { ...updated[index] };
+    setRows((prev) => {
+      const updated = [...prev];
+      const row = { ...updated[index] };
 
-    if (field === "sabaq") {
-      row.sabaq = value;
-
-      if (specialOptions[value]) {
-        row.isSpecial = true;
-        row.specialText = specialOptions[value];
+      if (field === "sabaq") {
+        row.sabaq = value;
+        if (specialOptions[value]) {
+          row.isSpecial = true;
+          row.specialText = specialOptions[value];
+        } else {
+          row.isSpecial = false;
+          row.specialText = null;
+        }
       } else {
-        row.isSpecial = false;
-        row.specialText = null;
+        row[field] = value;
       }
-    } else {
-      row[field] = value;
-    }
 
-    updated[index] = row;
-    return updated;
-  });
-};
+      updated[index] = row;
+      return updated;
+    });
+  };
 
-
-
-  // Save PNG
   const saveAsImage = () => {
     const reportTable = document.getElementById("reportTable");
+    const currentSectionObj = availableSections.find(s => s.id === section);
+    const fileNameTitle = currentSectionObj ? currentSectionObj.title : section;
 
     html2canvas(reportTable, {
       backgroundColor: "#ffffff",
-      scale: 4, // high resolution
+      scale: 4, 
       padding: 50,
     }).then(async (canvas) => {
       canvas.toBlob(async (blob) => {
-        const file = new File([blob], `hifz-report-${today}.png`, { type: "image/png" });
-
+        const file = new File([blob], `hifz-report-${fileNameTitle}-${today}.png`, { type: "image/png" });
         const link = document.createElement("a");
         link.download = file.name;
         link.href = URL.createObjectURL(file);
         link.click();
-
-        // The image is already downloaded to the user's device via the link above.
-        // You cannot programmatically attach a file from the user's downloads folder due to browser security restrictions.
-        // Advise the user to manually attach the downloaded image when sharing via WhatsApp or other apps.
         alert("Image Saved to Gallery!");
       });
     });
   };
 
-  // Open CSV editor (edit names only)
   const openEditor = () => {
     setEditing(true);
     setCsvText(rows.map(r => r.name).join("\n"));
   };
 
-  // Save CSV (names only to Firestore), then rebuild rows with defaults
   const saveCsv = async () => {
     const newNames = csvText.split("\n").map(n => n.trim()).filter(Boolean);
-
     setEditing(false);
     setLoading(true);
 
     try {
-      await setDoc(doc(db, "data", section), { names: newNames });
+      const docRef = doc(db, "data", section);
+      const snap = await getDoc(docRef);
+      const currentData = snap.exists() ? snap.data() : {};
+      
+      await setDoc(docRef, { ...currentData, names: newNames });
 
-      // refresh rows from saved names
-      const snap = await getDoc(doc(db, "data", section));
-      if (snap.exists()) {
-        const names = snap.data().names || [];
-        setRows(names.map(n => defaultRowForName(n)));
-      }
-
+      const names = newNames;
+      setRows(names.map(n => defaultRowForName(n)));
       console.log("Saved ✅");
     } catch (err) {
       alert("Save failed ❌");
@@ -176,21 +200,28 @@ function App() {
     }
   };
 
+  const getCurrentSectionTitle = () => {
+    const found = availableSections.find(s => s.id === section);
+    return found ? found.title : section;
+  };
+
+  if (!authenticated) return <div className="loader" style={{margin:"50px auto"}}></div>;
+
   return (
     <div className="app-container">
       <select
         value={section}
         onChange={e => setSection(e.target.value)}
-        disabled={tier === 2}
-        style={{ marginBottom: 16, padding: "6px 12px", fontSize: 16, borderRadius: 6 }}
+        style={{ marginBottom: 16, padding: "6px 12px", fontSize: 16, borderRadius: 6, textTransform: 'capitalize' }}
       >
-        <option value="a">سیکشن "A"</option>
-        <option value="b">سیکشن "B"</option>
-        <option value="c">سیکشن "C"</option>
-        <option value="d">سیکشن "D"</option>
-        <option value="e">سیکشن "A" (Girls)</option>
-        <option value="f">سیکشن "B" (Girls)</option>
+        {availableSections.length === 0 && <option>No sections found</option>}
+        {availableSections.map((secObj) => (
+           <option key={secObj.id} value={secObj.id}>
+             {secObj.title}
+           </option>
+        ))}
       </select>
+
       <button className="edit-btn" onClick={openEditor} style={{ marginLeft: 12, padding: "6px 16px", borderRadius: 6 }}>
         ✏️ ناموں کی فہرست ترمیم کریں
       </button>
@@ -211,9 +242,11 @@ function App() {
 
       <div className="table-wrapper" id="reportTable" style={{ background: "#fff", borderRadius: 12, boxShadow: "0 2px 12px #eee", padding: 2, marginTop: 24 }}>
         <img src="/daslogo.png" height={56} alt="" style={{ marginBottom: 12 }} />
+        
         <h5 style={{ marginBottom: 18, fontWeight: 600, fontSize: 18 }}>
-          سیکشن "{section}" کی رپورٹ: &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; تاریخ: {today}
+           {getCurrentSectionTitle()} کی رپورٹ: &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; تاریخ: {today}
         </h5>
+        
         {loading && <div className="loader"></div>}
 
         <table className="report-table" style={{
@@ -246,7 +279,7 @@ function App() {
       {row.isSpecial ? (
         <td colSpan={5} style={{ textAlign: "center", fontWeight: "bold" }}>
     <select
-      value={row.sabaq}   // ✅ This makes it controlled
+      value={row.sabaq}   
       onChange={(e) => handleChange(index, "sabaq", e.target.value)}
     >
       {Object.keys(specialOptions).map((key) => (
@@ -261,7 +294,6 @@ function App() {
   </td>
       ) : (
         <>
-          {/* Sabaq select with all options */}
           <td>
             <select
               value={row.sabaq}
@@ -273,13 +305,11 @@ function App() {
               {Object.keys(specialOptions).map((key) => (
               <option key={specialOptions[key]} value={key}>
                 {specialOptions[key]}
-                
               </option>
             ))}
             </select>
           </td>
 
-          {/* Normal other columns */}
           <td>
             <select
               value={row.sabqi}
@@ -339,5 +369,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

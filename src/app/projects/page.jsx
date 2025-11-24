@@ -39,6 +39,10 @@ export default function Projects() {
                             <h2 className='card-heading-dark '><i className="bi bi-notepad"></i>RouteFast</h2>
 
     </div></div>
+    <div className="col-lg-3 mt-3"> <div onClick={() => window.location.href = "https://khushkhush.com"} className="card-project card-publicnotepad">
+                            <h2 className='card-heading-dark '><i className="bi bi-notepad"></i>KhushKhush</h2>
+
+    </div></div>
  </div>
 </div>
 <Footer />
