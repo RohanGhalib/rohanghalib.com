@@ -18,7 +18,7 @@ const TrashIcon = () => <i className="bi bi-trash3"></i>;
 export default function DailyDiaryGenerator() {
   const schoolName = 'Dar-e-Arqam School';
   const classOptions = [
-   "Prep"
+   "Prep",
    "Nursery",
    "Prep",
    "One",
