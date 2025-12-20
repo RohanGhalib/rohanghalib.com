@@ -1,9 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import Footer from "@/sections/Footer";
+import dynamic from "next/dynamic";
 import rehypeRaw from "rehype-raw";
 import ReactMarkdown from "react-markdown";
+
+const Footer = dynamic(() => import('@/sections/Footer'), { loading: () => <p>Loading...</p> });
+
 export default function ArticlePage({ params }) {
   const { id } = React.use(params); // Unwrap the params Promise
   const [article, setArticle] = useState(null);

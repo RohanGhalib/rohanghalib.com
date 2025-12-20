@@ -1,6 +1,9 @@
 "use client";
 import Link from 'next/link';
-import Footer from '@/sections/Footer';
+import dynamic from 'next/dynamic';
+
+const Footer = dynamic(() => import('@/sections/Footer'), { loading: () => <p>Loading...</p> });
+
 export default function Projects() {
  return(
   <>
