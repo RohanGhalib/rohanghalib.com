@@ -6,6 +6,7 @@ const Footer = dynamic(() => import('@/sections/Footer'), { loading: () => <p>Lo
 
 export default function Articles() {
   return (
+    <>
     <div className='container'>
         <br />
       <h1>My Articles</h1>
@@ -22,7 +23,9 @@ export default function Articles() {
         </div>
         {/* Add more articles here */}
       </div>
-      <Footer />
     </div>
+      <Footer />
+      </>
+
   );
 }

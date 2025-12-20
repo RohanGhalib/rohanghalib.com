@@ -1,6 +1,5 @@
 import './globals.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Analytics } from "@vercel/analytics/next"
 import { Inter } from 'next/font/google'
 import { Providers } from './providers';
@@ -18,6 +17,7 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <Analytics />
       <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
       </head>
       <body className={inter.className}>
         <Providers>
