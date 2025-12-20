@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Analytics } from "@vercel/analytics/next"
 import { Inter } from 'next/font/google'
+import { Providers } from './providers';
+import ThemeToggle from '@/components/ThemeToggle';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,12 +15,15 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <Analytics />
       <head>
       </head>
       <body className={inter.className}>
-        {children}
+        <Providers>
+          <ThemeToggle />
+          {children}
+        </Providers>
       </body>
     </html>
   );

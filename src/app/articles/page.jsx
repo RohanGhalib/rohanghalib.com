@@ -1,6 +1,8 @@
 import React from 'react';
-import Footer from '@/sections/Footer';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+
+const Footer = dynamic(() => import('@/sections/Footer'), { ssr: false });
 
 // Metadata for social media
 export const metadata = {

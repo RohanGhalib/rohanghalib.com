@@ -8,7 +8,14 @@ body{
   font-family: "Inter";
   text-align: center;
   color: black !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+[data-theme="dark"] body {
+  background-color: #121212;
+  color: white !important;
+}
+
 .urdutext{
   font-family: "Alqalam", serif;
   font-optical-sizing: auto;
@@ -43,6 +50,17 @@ p{
   color: white;
   transition: 0.1s;
 }
+
+[data-theme="dark"] .socialbutton {
+    color: white;
+    border-color: white;
+}
+
+[data-theme="dark"] .socialbutton:hover {
+    background-color: white;
+    color: black;
+}
+
 .heading-about{
   color: red !important;
 }
@@ -62,6 +80,11 @@ border-radius: 5px;
   float: left;
   margin-right: 150px;
 }
+
+[data-theme="dark"] .a-to-minimize {
+    color: white !important;
+}
+
 .article-card{
   border: 3px solid black;
   padding: 20px;
@@ -76,8 +99,18 @@ border-radius: 5px;
   color: white;
   cursor: pointer;
 }
+
+[data-theme="dark"] .article-card {
+    border: 3px solid white;
+}
+
+[data-theme="dark"] .article-card:hover {
+    background-color: white;
+    color: black;
+}
+
 .footer{
-  background-color: black;
+  background-color: #1f1f1f; /* Charcoal Gray */
   color: white;
   padding: 20px;
   text-align: center;
@@ -187,6 +220,11 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#E6C046", en
   color: rgb(39, 39, 39);
   font-weight: bolder;
 }
+
+[data-theme="dark"] .card-heading-dark {
+    color: white;
+}
+
 .card-das{
   background: #020024;
 background: linear-gradient(321deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
@@ -198,4 +236,13 @@ background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%,
 .card-keyboard{
   background: #1f1f1f;
   
+}
+
+[data-theme="dark"] .spotify-widget-container {
+  background-color: #1DB954; /* Spotify Green */
+  border-radius: 12px;
+}
+
+[data-theme="dark"] .spotify-widget-container iframe {
+  mix-blend-mode: multiply;
 }
