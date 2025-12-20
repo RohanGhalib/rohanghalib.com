@@ -1,6 +1,8 @@
 import React from 'react';
 import Footer from '@/sections/Footer';
 import Link from 'next/link';
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/app/das/firebase";
 
 // Metadata for social media
 export const metadata = {
@@ -27,19 +29,15 @@ export const metadata = {
     images: ["https://rohanghalib.com/profile.jpg"],
   },
 };
-// Use Next.js fetch cache and server-side rendering
+
 async function getArticles() {
   try {
-    const res = await fetch('https://api.rohanghalib.com/fetch.php', {
-      headers: { 'Accept': 'application/json' },
-      // Next.js fetch options for SSR and caching
-      cache: 'no-store', // or 'no-store' if you want always fresh
-      next: { revalidate: 60 }, // ISR: revalidate every 60 seconds
-    });
-    if (!res.ok) throw new Error('Network response was not ok');
-    return await res.json();
+    const articlesCol = collection(db, "articles");
+    const articleSnapshot = await getDocs(articlesCol);
+    const articles = articleSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return articles;
   } catch (err) {
-    return { error: err.message + '. Please ensure the backend server is running and CORS is enabled.' };
+    return { error: err.message };
   }
 }
 
@@ -78,7 +76,7 @@ const ArticlesPage = async () => {
                     ? article.description.slice(0, 110) + " ..."
                     : article.description}
                 </p>
-                <span className='float-bottom'><i>Published 23/06/23</i></span>
+                <span className='float-bottom'><i>Published {new Date(article.published_at.seconds * 1000).toLocaleDateString()}</i></span>
               </div>
             </Link>
           </div>
