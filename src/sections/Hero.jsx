@@ -1,7 +1,11 @@
 "use client";
 import Link from "next/link"
 import { Typewriter } from 'react-simple-typewriter';
+import ReactDOM from 'react-dom';
+
 export default function Hero() {
+  ReactDOM.preload("/profile.jpg", { as: "image" });
+
  return (
     <>
     <div className="container mt-5">

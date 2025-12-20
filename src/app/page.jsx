@@ -1,7 +1,10 @@
 import Hero from "@/sections/Hero";
-import AboutMe from "@/sections/AboutMe";
-import Footer from "@/sections/Footer";
+import dynamic from 'next/dynamic'
 import Link from "next/link";
+
+const AboutMe = dynamic(() => import('@/sections/AboutMe'), { loading: () => <p>Loading...</p> })
+const Footer = dynamic(() => import('@/sections/Footer'), { loading: () => <p>Loading...</p> })
+
 // Metadata for social media
 export const metadata = {
   title: "Home - Rohan Ghalib's Portfolio",
