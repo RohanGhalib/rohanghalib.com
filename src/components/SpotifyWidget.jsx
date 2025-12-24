@@ -16,10 +16,10 @@ const NOISE_SVG = `data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http:/
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 // --- Sub-Component: Equalizer Bar ---
-const EqualizerBar = ({ delay, isPlaying, isDark }) => {
+const EqualizerBar = ({ delay, isPlaying }) => {
   return (
     <motion.div
-      className={`eq-bar ${!isDark ? 'eq-bar-light' : ''}`}
+      className="eq-bar"
       animate={isPlaying ? {
         height: ["20%", "100%", "50%", "80%", "20%"],
       } : { height: "20%" }}
@@ -34,7 +34,7 @@ const EqualizerBar = ({ delay, isPlaying, isDark }) => {
   );
 };
 
-export default function SpotifyWidget({ isDark = true }) {
+export default function SpotifyWidget() {
   // --- API HOOKS ---
   const { data: nowPlayingData } = useSWR('/api/now-playing', fetcher, { 
     refreshInterval: 5000 
@@ -104,28 +104,15 @@ export default function SpotifyWidget({ isDark = true }) {
           user-select: none;
           transition: all 0.5s ease;
           border: 1px solid rgba(255,255,255,0.1);
-          color: white; /* Default text color */
+          
+          /* Forced Dark Theme */
+          background: #000;
+          color: white; 
         }
         
         .spotify-card:hover {
           transform: translateY(-5px);
           box-shadow: 0 25px 60px -12px rgba(0,0,0,0.4);
-        }
-
-        /* Dark Mode Defaults */
-        .card-dark {
-          background: #000;
-          color: white;
-        }
-        
-        /* Light Mode Overrides */
-        .card-light {
-          background: #fff;
-          color: #1a1a1a;
-          border-color: rgba(0,0,0,0.05);
-          box-shadow: 
-            0 20px 40px -12px rgba(0,0,0,0.1), 
-            0 0 0 1px rgba(0,0,0,0.05);
         }
 
         /* 1. Ambient Background Layer */
@@ -143,15 +130,8 @@ export default function SpotifyWidget({ isDark = true }) {
           object-fit: cover;
           transform: scale(1.5);
           transition: opacity 0.5s ease;
-        }
-        
-        /* Dark Mode: Darken the glow */
-        .card-dark .ambient-img {
+          /* Forced Dark Mode Glow */
           filter: blur(60px) saturate(200%) brightness(0.6);
-        }
-        /* Light Mode: Lighten the glow to be pastel */
-        .card-light .ambient-img {
-          filter: blur(60px) saturate(150%) brightness(1.2) opacity(0.6);
         }
 
         /* 2. Noise Overlay */
@@ -175,13 +155,8 @@ export default function SpotifyWidget({ isDark = true }) {
           height: 100%;
           backdrop-filter: blur(20px);
           transition: background 0.3s ease;
-        }
-
-        .card-dark .content-layer {
+          /* Forced Dark Mode Tint */
           background: rgba(0, 0, 0, 0.2); 
-        }
-        .card-light .content-layer {
-          background: rgba(255, 255, 255, 0.3);
         }
 
         /* --- HEADER SECTION --- */
@@ -211,7 +186,6 @@ export default function SpotifyWidget({ isDark = true }) {
           object-fit: cover;
           border: 2px solid rgba(255,255,255,0.2);
         }
-        .card-light .avatar-img { border-color: rgba(0,0,0,0.1); }
         
         .status-dot {
           position: absolute;
@@ -223,7 +197,6 @@ export default function SpotifyWidget({ isDark = true }) {
           background: #22c55e;
           border: 2px solid #000;
         }
-        .card-light .status-dot { border-color: #fff; }
 
         .user-info {
           display: flex;
@@ -266,10 +239,6 @@ export default function SpotifyWidget({ isDark = true }) {
           box-shadow: 0 10px 40px rgba(0,0,0,0.4);
           flex-shrink: 0;
           background: #333; /* Loading placeholder */
-        }
-        .card-light .art-container {
-           box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-           background: #eee;
         }
         
         .track-img {
@@ -321,10 +290,6 @@ export default function SpotifyWidget({ isDark = true }) {
           border-radius: 4px;
           box-shadow: 0 0 10px rgba(255,255,255,0.4);
         }
-        .eq-bar-light {
-          background-color: #1a1a1a;
-          box-shadow: none;
-        }
 
         /* Divider */
         .divider {
@@ -332,9 +297,6 @@ export default function SpotifyWidget({ isDark = true }) {
           width: 100%;
           margin-bottom: 1.5rem;
           background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
-        }
-        .card-light .divider {
-          background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
         }
 
         /* List Section */
@@ -361,8 +323,7 @@ export default function SpotifyWidget({ isDark = true }) {
           margin-bottom: 4px;
         }
         
-        .card-dark .list-item:hover { background: rgba(255,255,255,0.1); }
-        .card-light .list-item:hover { background: rgba(0,0,0,0.05); }
+        .list-item:hover { background: rgba(255,255,255,0.1); }
 
         .list-art {
           width: 40px;
@@ -372,7 +333,6 @@ export default function SpotifyWidget({ isDark = true }) {
           box-shadow: 0 4px 10px rgba(0,0,0,0.2);
           background: #333;
         }
-        .card-light .list-art { box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: #eee; }
         
         .list-info {
           display: flex;
@@ -409,7 +369,7 @@ export default function SpotifyWidget({ isDark = true }) {
 
       {/* --- WIDGET CONTENT --- */}
       <motion.div 
-        className={`spotify-card ${!isDark ? 'card-light' : 'card-dark'}`}
+        className="spotify-card"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
@@ -488,7 +448,7 @@ export default function SpotifyWidget({ isDark = true }) {
 
               <div className="equalizer-wrap">
                 {[0, 0.2, 0.4, 0.1].map((d, i) => (
-                  <EqualizerBar key={i} delay={d} isPlaying={isPlaying} isDark={isDark} />
+                  <EqualizerBar key={i} delay={d} isPlaying={isPlaying} />
                 ))}
               </div>
             </div>
