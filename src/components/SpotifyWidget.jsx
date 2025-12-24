@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useSWR from 'swr';
-import { ExternalLink, Disc, Volume2, User } from 'lucide-react';
+import { ExternalLink, Disc, Volume2, VolumeX, User } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 // --- CONFIGURATION ---
@@ -43,11 +43,15 @@ export default function SpotifyWidget() {
 
   // --- STATE ---
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(true); // Default to muted (browser policy)
+  const audioRef = useRef(null);
+
   const [nowPlaying, setNowPlaying] = useState({
     title: "Loading...",
     artist: "Spotify",
     albumArt: "",
-    link: "#"
+    link: "#",
+    previewUrl: null
   });
   const [topTracks, setTopTracks] = useState([]);
 
@@ -60,7 +64,8 @@ export default function SpotifyWidget() {
           title: nowPlayingData.title,
           artist: nowPlayingData.artist,
           albumArt: nowPlayingData.albumImageUrl,
-          link: nowPlayingData.songUrl
+          link: nowPlayingData.songUrl,
+          previewUrl: nowPlayingData.previewUrl // Capture preview URL
         });
       }
       setIsPlaying(nowPlayingData.isPlaying);
@@ -72,6 +77,45 @@ export default function SpotifyWidget() {
       setTopTracks(tracks.slice(0, 3));
     }
   }, [nowPlayingData, topTracksData]);
+
+  // --- AUDIO LOGIC ---
+  useEffect(() => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio();
+      audioRef.current.loop = true; // Loop the preview
+      audioRef.current.volume = 0.5;
+    }
+
+    const audio = audioRef.current;
+
+    if (nowPlaying.previewUrl) {
+      // Only change source if it's different to prevent resetting playback
+      if (audio.src !== nowPlaying.previewUrl) {
+        audio.src = nowPlaying.previewUrl;
+      }
+
+      if (isPlaying && !isMuted) {
+        // Attempt to play
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            console.log("Audio play failed (interaction likely needed):", error);
+            // Optionally set isMuted to true if autoplay fails
+          });
+        }
+      } else {
+        audio.pause();
+      }
+    } else {
+      // No preview available
+      audio.pause();
+    }
+
+    return () => {
+      // Cleanup on unmount
+      audio.pause();
+    };
+  }, [nowPlaying.previewUrl, isPlaying, isMuted]);
 
   // Check if we have valid album art to show (for the background blur)
   const hasActiveArt = nowPlaying.albumArt && nowPlaying.albumArt !== "";
@@ -214,6 +258,25 @@ export default function SpotifyWidget() {
           display: flex;
           align-items: center;
           gap: 4px;
+        }
+
+        .mute-btn {
+          background: transparent;
+          border: none;
+          padding: 0;
+          margin: 0;
+          color: inherit;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          font-family: inherit;
+          font-size: inherit;
+          font-weight: inherit;
+        }
+        .mute-btn:hover {
+          opacity: 1;
+          color: #22c55e;
         }
 
         .brand-icon {
@@ -406,9 +469,10 @@ export default function SpotifyWidget() {
                 <span className="username">{USER_NAME}</span>
                 <span className="listening-status">
                    {isPlaying ? (
-                     <>
-                      <Volume2 size={10} /> is listening to
-                     </>
+                     <button className="mute-btn" onClick={() => setIsMuted(!isMuted)}>
+                      {isMuted ? <VolumeX size={10} /> : <Volume2 size={10} />} 
+                      is listening to
+                     </button>
                    ) : "was listening to"}
                 </span>
               </div>
