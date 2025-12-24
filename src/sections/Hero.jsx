@@ -3,9 +3,11 @@ import Link from "next/link"
 import { Typewriter } from 'react-simple-typewriter';
 import ReactDOM from 'react-dom';
 import SpotifyWidget from '@/components/SpotifyWidget';
+import { useTheme } from "next-themes";
 
 export default function Hero() {
   ReactDOM.preload("/profile.jpg", { as: "image" });
+  const { theme } = useTheme();
 
  return (
     <>
@@ -40,7 +42,7 @@ export default function Hero() {
 
     </div>
     <div className="col-lg-6 mt-3">
-      <SpotifyWidget />
+      <SpotifyWidget isDark={theme === 'dark'} />
       <p className="mt-5 text-end">
 
       Remember That Iqbal Said: <br />
