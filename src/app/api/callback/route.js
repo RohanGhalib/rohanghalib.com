@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import querystring from 'querystring';
 
@@ -12,7 +11,7 @@ export async function GET(req) {
 
   const client_id = process.env.SPOTIFY_CLIENT_ID;
   const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-  const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
+  const redirect_uri = "https://rohanghalib.com/api/callback";
 
   const response = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
