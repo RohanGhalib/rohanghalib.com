@@ -2,6 +2,7 @@
 import Link from "next/link"
 import { Typewriter } from 'react-simple-typewriter';
 import ReactDOM from 'react-dom';
+import SpotifyWidget from '@/components/SpotifyWidget';
 
 export default function Hero() {
   ReactDOM.preload("/profile.jpg", { as: "image" });
@@ -41,8 +42,8 @@ export default function Hero() {
     <div className="col-lg-6">
    <div className="spotifyplayer mt-3">
     <div className="spotify-widget-container">
-  <iframe style={{ borderRadius: "12px" }} src="https://open.spotify.com/embed/playlist/4nLGl7FR7LNNjblONwy0Dp?utm_source=generator&theme=1" width="100%" height="152" frameBorder="0"  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" ></iframe>
-  </div>
+    <SpotifyWidget />
+    </div>
   <p className="mt-5 text-end">
 
   Remember That Iqbal Said: <br />
