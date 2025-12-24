@@ -474,7 +474,7 @@ export default function SpotifyWidget({ isDark = false }) {
               className="sw-album-art"
           >
                {hasActiveTrack ? (
-                 <img src={nowPlaying.albumArt} alt="Album Art" className="sw-avatar-img" />
+                 <img src={nowPlaying.albumArt} alt="Album Art" className="sw-avatar-img" style={{ 'object-fit': 'cover', 'border-radius': '50%' }}/>
                ) : (
                  <div className="sw-avatar-img" style={{background: '#444'}} />
                )}
