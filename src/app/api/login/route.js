@@ -1,19 +1,37 @@
 import { NextResponse } from 'next/server';
 import querystring from 'querystring';
 
-export async function GET() {
-  const client_id = process.env.SPOTIFY_CLIENT_ID;
-  const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
+const client_id = process.env.SPOTIFY_CLIENT_ID;
+const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+const refresh_token = process.env.SPOTIFY_REFRESH_TOKEN;
 
-  const scope = 'user-read-private user-read-email user-top-read user-read-currently-playing';
+const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
+const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 
-  return NextResponse.redirect(
-    'https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      response_type: 'code',
-      client_id: client_id,
-      scope: scope,
-      redirect_uri: redirect_uri,
-    })
-  );
+const getAccessToken = async () => {
+  const response = await fetch(TOKEN_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${basic}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: querystring.stringify({
+      grant_type: 'refresh_token',
+      refresh_token,
+    }),
+  });
+
+  return response.json();
+};
+
+export async function GET(req) {
+  const { access_token } = await getAccessToken();
+
+  if (!access_token) {
+    return NextResponse.redirect('/api/callback');
+  }
+
+  // Your logic to fetch top tracks, artists, etc. goes here
+  // For now, let's just return a success message
+  return new Response(JSON.stringify({ message: 'Successfully fetched access token' }), { status: 200 });
 }
