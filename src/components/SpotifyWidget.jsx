@@ -37,7 +37,7 @@ const EqualizerBar = ({ delay, isPlaying }) => {
 export default function SpotifyWidget() {
   // --- API HOOKS ---
   const { data: nowPlayingData } = useSWR('/api/now-playing', fetcher, { 
-    refreshInterval: 5000 
+    refreshInterval: 100 
   });
   const { data: topTracksData } = useSWR('/api/top-tracks', fetcher);
 
