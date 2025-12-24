@@ -39,25 +39,21 @@ export default function Hero() {
     <Link href="/articles" className="socialbutton mt-5">Read My Articles <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
 
     </div>
-    <div className="col-lg-6">
-   <div className="spotifyplayer mt-3">
-    <div className="spotify-widget-container">
-    <SpotifyWidget />
-    </div>
-  <p className="mt-5 text-end">
+    <div className="col-lg-6 mt-3">
+      <SpotifyWidget />
+      <p className="mt-5 text-end">
 
-  Remember That Iqbal Said: <br />
-     <span className="urdutext fs-2">جنون عشق سے تو خدا بھی نہ بچ سکا اقبال<br />
-  تعریف حسن یار میں سارا قران لکھ دیا</span>
-  <br /><br /><br />
-  And Someone Said: <br />
-  <span className="urdutext fs-2">
-   عجیب سی بیتابی ہے تیرے بنا کے <br />
-   رہ بھی لیتے ہیں اور رہا بھی نہیں جاتا
+      Remember That Iqbal Said: <br />
+         <span className="urdutext fs-2">جنون عشق سے تو خدا بھی نہ بچ سکا اقبال<br />
+      تعریف حسن یار میں سارا قران لکھ دیا</span>
+      <br /><br /><br />
+      And Someone Said: <br />
+      <span className="urdutext fs-2">
+       عجیب سی بیتابی ہے تیرے بنا کے <br />
+       رہ بھی لیتے ہیں اور رہا بھی نہیں جاتا
 
-  </span>
-  </p>
-   </div>
+      </span>
+      </p>
     </div>
     </div>
     </div>

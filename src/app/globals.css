@@ -237,12 +237,3 @@ background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%,
   background: #1f1f1f;
   
 }
-
-[data-theme="dark"] .spotify-widget-container {
-  background-color: #1DB954; /* Spotify Green */
-  border-radius: 12px;
-}
-
-[data-theme="dark"] .spotify-widget-container iframe {
-  mix-blend-mode: multiply;
-}
