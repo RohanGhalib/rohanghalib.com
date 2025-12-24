@@ -42,8 +42,7 @@ export default function Hero() {
 
     </div>
     <div className="col-lg-6 mt-3">
-      <SpotifyWidget isDark={theme === 'dark'} />
-      <p className="mt-5 text-end">
+    <SpotifyWidget isDark={theme === 'dark'} />      <p className="mt-5 text-end">
 
       Remember That Iqbal Said: <br />
          <span className="urdutext fs-2">جنون عشق سے تو خدا بھی نہ بچ سکا اقبال<br />

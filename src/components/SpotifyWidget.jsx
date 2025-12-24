@@ -16,10 +16,10 @@ const NOISE_SVG = `data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http:/
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 // --- Sub-Component: Equalizer Bar ---
-const EqualizerBar = ({ delay, isPlaying, theme }) => {
+const EqualizerBar = ({ delay, isPlaying, isDark }) => {
   return (
     <motion.div
-      className={`eq-bar ${theme === 'light' ? 'eq-bar-light' : ''}`}
+      className={`eq-bar ${!isDark ? 'eq-bar-light' : ''}`}
       animate={isPlaying ? {
         height: ["20%", "100%", "50%", "80%", "20%"],
       } : { height: "20%" }}
@@ -34,7 +34,7 @@ const EqualizerBar = ({ delay, isPlaying, theme }) => {
   );
 };
 
-export default function SpotifyWidget({ theme = 'dark' }) {
+export default function SpotifyWidget({ isDark = true }) {
   // --- API HOOKS ---
   const { data: nowPlayingData } = useSWR('/api/now-playing', fetcher, { 
     refreshInterval: 5000 
@@ -86,7 +86,7 @@ export default function SpotifyWidget({ theme = 'dark' }) {
           /* Align to Top-Left */
           justify-content: flex-start; 
           align-items: flex-start;
-          width: 100%;         /* Restored to 100% to fill parent */
+          width: 100%;         
           height: auto;        /* Wraps height around the widget */
           background: transparent;
           padding: 0; 
@@ -96,7 +96,7 @@ export default function SpotifyWidget({ theme = 'dark' }) {
         .spotify-card {
           position: relative;
           width: 100%;
-          max-width: 100%; /* Increased from 380px to make it wider */
+          max-width: 100%; /* Set to 100% as requested */
           border-radius: 32px;
           overflow: hidden;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -409,7 +409,7 @@ export default function SpotifyWidget({ theme = 'dark' }) {
 
       {/* --- WIDGET CONTENT --- */}
       <motion.div 
-        className={`spotify-card ${theme === 'light' ? 'card-light' : 'card-dark'}`}
+        className={`spotify-card ${!isDark ? 'card-light' : 'card-dark'}`}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
@@ -488,7 +488,7 @@ export default function SpotifyWidget({ theme = 'dark' }) {
 
               <div className="equalizer-wrap">
                 {[0, 0.2, 0.4, 0.1].map((d, i) => (
-                  <EqualizerBar key={i} delay={d} isPlaying={isPlaying} theme={theme} />
+                  <EqualizerBar key={i} delay={d} isPlaying={isPlaying} isDark={isDark} />
                 ))}
               </div>
             </div>
