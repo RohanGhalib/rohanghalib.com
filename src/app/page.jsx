@@ -1,9 +1,9 @@
 import Hero from "@/sections/Hero";
-import dynamic from 'next/dynamic'
+import AboutMe from "@/sections/AboutMe";
+import Footer from "@/sections/Footer";
 import Link from "next/link";
-
-const AboutMe = dynamic(() => import('@/sections/AboutMe'), { loading: () => <p>Loading...</p> })
-const Footer = dynamic(() => import('@/sections/Footer'), { loading: () => <p>Loading...</p> })
+import { db } from "@/app/das/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 // Metadata for social media
 export const metadata = {
@@ -31,12 +31,25 @@ export const metadata = {
   },
 };
 
-export default function Home() {        
+async function getAboutMeContent() {
+  const docRef = doc(db, 'siteContent', 'content');
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data().aboutMe;
+  } else {
+    console.log("No such document!");
+    return "";
+  }
+}
+
+export default async function Home() {
+  const aboutMeContent = await getAboutMeContent();
+
   return (
-    
-    <>    
+    <>
       <Hero />
-      <AboutMe />
+      <AboutMe content={aboutMeContent} />
       <Footer />
     </>
   );
