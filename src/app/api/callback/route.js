@@ -30,7 +30,17 @@ export async function GET(req) {
   const data = await response.json();
 
   if (data.error) {
-    return new Response(data.error_description, { status: 500 });
+    const errorMessage = `
+      <h1>Error from Spotify</h1>
+      <p><b>Error:</b> ${data.error}</p>
+      <p><b>Description:</b> ${data.error_description}</p>
+      <hr>
+      <h2>Debugging Info</h2>
+      <p>The redirect URI sent from our server to Spotify was:</p>
+      <pre><code>${redirect_uri}</code></pre>
+      <p>Please ensure this value is not "undefined" and exactly matches the Redirect URI in your Spotify Dashboard and your Vercel Environment Variables.</p>
+    `;
+    return new Response(errorMessage, { status: 500, headers: { 'Content-Type': 'text/html' } });
   }
 
   const refresh_token = data.refresh_token;
