@@ -1,19 +1,30 @@
 import { getTopTracks } from '@/lib/spotify';
 
-export async function GET(request) {
-  const response = await getTopTracks();
-  const { items } = await response.json();
+export async function GET() {
+  try {
+    const response = await getTopTracks();
+    const { items } = await response.json();
 
-  const tracks = items.slice(0, 10).map((track) => ({
-    artist: track.artists.map((_artist) => _artist.name).join(', '),
-    songUrl: track.external_urls.spotify,
-    title: track.name,
-  }));
+    const tracks = items.slice(0, 10).map((track) => ({
+      artist: track.artists.map((_artist) => _artist.name).join(', '),
+      songUrl: track.external_urls.spotify,
+      title: track.name,
+      imageUrl: track.album.images[0].url,
+    }));
 
-  return new Response(JSON.stringify({ tracks }), {
-    status: 200,
-    headers: {
-      'content-type': 'application/json',
-    },
-  });
+    return new Response(JSON.stringify({ tracks }), {
+      status: 200,
+      headers: {
+        'content-type': 'application/json',
+        'cache-control': 'public, s-maxage=86400, stale-while-revalidate=43200',
+      },
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ tracks: [] }), {
+      status: 200,
+      headers: {
+        'content-type': 'application/json',
+      },
+    });
+  }
 }

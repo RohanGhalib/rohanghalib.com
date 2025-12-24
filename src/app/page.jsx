@@ -1,6 +1,5 @@
 import Hero from "@/sections/Hero";
 import AboutMe from "@/sections/AboutMe";
-import TopTracks from "@/sections/TopTracks";
 import Footer from "@/sections/Footer";
 import Link from "next/link";
 import { db } from "@/app/das/firebase";
@@ -51,7 +50,6 @@ export default async function Home() {
     <>
       <Hero />
       <AboutMe content={aboutMeContent} />
-      <TopTracks />
       <Footer />
     </>
   );
