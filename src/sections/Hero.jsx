@@ -44,16 +44,16 @@ export default function Hero() {
     <div className="col-lg-6 mt-3">
     <SpotifyWidget isDark={theme === 'dark'} />      <p className="mt-5 text-end">
 
-      Remember That Iqbal Said: <br />
-         <span className="urdutext fs-2">جنون عشق سے تو خدا بھی نہ بچ سکا اقبال<br />
-      تعریف حسن یار میں سارا قران لکھ دیا</span>
-      <br /><br /><br />
-      And Someone Said: <br />
-      <span className="urdutext fs-2">
-       عجیب سی بیتابی ہے تیرے بنا کے <br />
-       رہ بھی لیتے ہیں اور رہا بھی نہیں جاتا
+      <br />
+         <span className="urdutext fs-2">رنگ محفل چاہتا ہے اک مکمل انقلاب
+          <br />
 
-      </span>
+چند شمعوں کے بھڑکنے سے سحر ہوتی نہیں
+
+</span><br />
+<i> — Iqbal Ajmeri </i>
+      <br />
+  
       </p>
     </div>
     </div>
