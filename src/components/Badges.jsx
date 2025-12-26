@@ -120,7 +120,7 @@ export default function TechMarquee() {
       <style jsx>{`
         .tech-marquee-container {
           position: relative;
-          width: 80%;
+          width: 100%;
           overflow: hidden;
           padding: 10px 0;
           
