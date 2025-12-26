@@ -10,14 +10,18 @@ export default function AboutMe({ content }) {
         <br />
         <h1>About Me</h1>
         <br /><br />
-        <ReactMarkdown
-          rehypePlugins={[rehypeRaw]}
-          components={{
-            a: ({ node, ...props }) => <Link {...props} />
-          }}
-        >
-          {content}
-        </ReactMarkdown>
+        <div className="about-me-container">
+          <ReactMarkdown
+            rehypePlugins={[rehypeRaw]}
+            components={{
+              a: ({ node, ...props }) => <Link {...props} />,
+              p: ({ node, ...props }) => <p className="markdown-paragraph" {...props} />,
+              h2: ({ node, ...props }) => <h2 className="about-me-subheading" {...props} />,
+            }}
+          >
+            {content}
+          </ReactMarkdown>
+        </div>
       </section>
     </div>
   );

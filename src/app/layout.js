@@ -1,11 +1,8 @@
 import './globals.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Analytics } from "@vercel/analytics/next"
-import { Inter } from 'next/font/google'
 import { Providers } from './providers';
 import ThemeToggle from '@/components/ThemeToggle';
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: "Rohan Ghalib - Portfolio",
@@ -19,7 +16,7 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
       </head>
-      <body className={inter.className} suppressHydrationWarning={true}>
+      <body suppressHydrationWarning={true}>
         <Providers>
           <ThemeToggle />
           {children}
