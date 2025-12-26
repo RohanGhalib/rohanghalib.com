@@ -120,9 +120,10 @@ export default function TechMarquee() {
       <style jsx>{`
         .tech-marquee-container {
           position: relative;
-          width: 100%;
+          width: 80%;
           overflow: hidden;
           padding: 10px 0;
+          
           /* Use the variable defined above */
           --bg-fade: var(--marquee-bg);
         }
