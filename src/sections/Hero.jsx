@@ -29,7 +29,7 @@ export default function Hero() {
 <br /><br />
     <Link href="/articles" className="socialbutton mt-5">Read My Articles <i className="bi bi-arrow-up-right-circle-fill"></i></Link>
     <br /> <br /><br />
-    
+    <br /><br /><br />
     <Badges />
    </div>
     <div className="col-lg-6 mt-3">
