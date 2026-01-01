@@ -1,4 +1,5 @@
 'use client';
+import Photos from '@/app/design/page';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import Link from 'next/link';
@@ -21,6 +22,9 @@ export default function AboutMe({ content }) {
           >
             {content}
           </ReactMarkdown>
+        </div>
+        <div>
+          <Photos />
         </div>
       </section>
     </div>
