@@ -1,14 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&display=swap');
 
 @font-face {
   font-family: 'Alqalam';
   src: url(/fonts/alqalam.ttf);
 }
-body{
-  font-family: "Inter";
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
   text-align: center;
   color: black !important;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto Mono', monospace;
 }
 
 [data-theme="dark"] body {
@@ -31,6 +37,13 @@ body{
 p{
   font-size: 1.2rem;
   line-height: 1.5;
+}
+.markdown-paragraph {
+  color: #6c757d;
+}
+
+[data-theme="dark"] .markdown-paragraph {
+  color: #adb5bd;
 }
 .socialbutton{
   font-size: 1.2rem;
@@ -236,4 +249,28 @@ background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%,
 .card-keyboard{
   background: #1f1f1f;
   
+}
+
+.about-me-container {
+  text-align: left;
+  max-width: 800px;
+  margin-left: 0;
+}
+
+.about-me-subheading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.about-me-container a {
+  display: inline-block;
+  margin-top: 1rem;
+  font-weight: 600;
+  color: black;
+  text-decoration: none;
+}
+
+[data-theme="dark"] .about-me-container a {
+  color: white;
 }
