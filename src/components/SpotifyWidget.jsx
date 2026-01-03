@@ -36,7 +36,10 @@ const EqualizerBar = ({ delay, isPlaying }) => {
 
 export default function SpotifyWidget() {
   // --- API HOOKS ---
-  const API_BASE = 'https://rohanghalib.com';
+  const API_BASE = process.env.NODE_ENV === 'development'
+    ? 'https://www.rohanghalib.com'
+    : '';
+
   const { data: nowPlayingData } = useSWR(`${API_BASE}/api/now-playing`, fetcher, {
     refreshInterval: 5000
   });
