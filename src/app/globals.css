@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&display=swap');
 
 @font-face {
@@ -7,14 +7,19 @@
 }
 
 body {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   text-align: center;
   color: black !important;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Roboto Mono', monospace;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Outfit', sans-serif;
 }
 
 [data-theme="dark"] body {
@@ -22,22 +27,25 @@ h1, h2, h3, h4, h5, h6 {
   color: white !important;
 }
 
-.urdutext{
+.urdutext {
   font-family: "Alqalam", serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
 }
-.profilepicture{
+
+.profilepicture {
   width: 250px;
   height: 250px;
   border-radius: 50%;
   object-fit: cover;
 }
-p{
+
+p {
   font-size: 1.2rem;
   line-height: 1.5;
 }
+
 .markdown-paragraph {
   color: #6c757d;
 }
@@ -45,7 +53,8 @@ p{
 [data-theme="dark"] .markdown-paragraph {
   color: #adb5bd;
 }
-.socialbutton{
+
+.socialbutton {
   font-size: 1.2rem;
   font-weight: 600;
   padding: 0.2rem 0.5rem;
@@ -58,33 +67,36 @@ p{
   margin: 0.4rem;
   cursor: pointer;
 }
-.socialbutton:hover{
+
+.socialbutton:hover {
   background-color: rgb(0, 0, 0);
   color: white;
   transition: 0.1s;
 }
 
 [data-theme="dark"] .socialbutton {
-    color: white;
-    border-color: white;
+  color: white;
+  border-color: white;
 }
 
 [data-theme="dark"] .socialbutton:hover {
-    background-color: white;
-    color: black;
+  background-color: white;
+  color: black;
 }
 
-.heading-about{
+.heading-about {
   color: red !important;
 }
-.article-tile{
-margin-top: 20px;
-border: 2px solid black !important; 
-width: 400px;
-padding: 5px;
-border-radius: 5px;
+
+.article-tile {
+  margin-top: 20px;
+  border: 2px solid black !important;
+  width: 400px;
+  padding: 5px;
+  border-radius: 5px;
 }
-.a-to-minimize{
+
+.a-to-minimize {
   text-decoration: none;
   color: black !important;
   font-weight: 600;
@@ -95,10 +107,10 @@ border-radius: 5px;
 }
 
 [data-theme="dark"] .a-to-minimize {
-    color: white !important;
+  color: white !important;
 }
 
-.article-card{
+.article-card {
   border: 3px solid black;
   padding: 20px;
   border-radius: 10px;
@@ -106,7 +118,8 @@ border-radius: 5px;
   height: 200px;
   transition: 0.2s;
 }
-.article-card:hover{
+
+.article-card:hover {
   background-color: black;
   transition: 0.2s;
   color: white;
@@ -114,16 +127,17 @@ border-radius: 5px;
 }
 
 [data-theme="dark"] .article-card {
-    border: 3px solid white;
+  border: 3px solid white;
 }
 
 [data-theme="dark"] .article-card:hover {
-    background-color: white;
-    color: black;
+  background-color: white;
+  color: black;
 }
 
-.footer{
-  background-color: #1f1f1f; /* Charcoal Gray */
+.footer {
+  background-color: #1f1f1f;
+  /* Charcoal Gray */
   color: white;
   padding: 20px;
   text-align: center;
@@ -134,121 +148,135 @@ border-radius: 5px;
   border-top-right-radius: 50px;
   padding-bottom: 100px;
 }
-.card-project{
- cursor: pointer;
+
+.card-project {
+  cursor: pointer;
   padding: 20px;
   border-radius: 25px;
   height: 200px;
   transition: 0.1s;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-.card-project:hover{
+
+.card-project:hover {
   translate: 0 -10px;
   transform: scale(1.08);
   z-index: 2;
 }
-.card-green{
- background: hsla(120, 61%, 34%, 1);
 
-background: linear-gradient(135deg, hsla(120, 61%, 34%, 1) 0%, hsla(120, 61%, 50%, 1) 100%);
+.card-green {
+  background: hsla(120, 61%, 34%, 1);
 
-background: -moz-linear-gradient(135deg, hsla(120, 61%, 34%, 1) 0%, hsla(120, 61%, 50%, 1) 100%);
+  background: linear-gradient(135deg, hsla(120, 61%, 34%, 1) 0%, hsla(120, 61%, 50%, 1) 100%);
 
-background: -webkit-linear-gradient(135deg, hsla(120, 61%, 34%, 1) 0%, hsla(120, 61%, 50%, 1) 100%);
+  background: -moz-linear-gradient(135deg, hsla(120, 61%, 34%, 1) 0%, hsla(120, 61%, 50%, 1) 100%);
 
-filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#228B22", endColorstr="#32CD32", GradientType=1 );
+  background: -webkit-linear-gradient(135deg, hsla(120, 61%, 34%, 1) 0%, hsla(120, 61%, 50%, 1) 100%);
+
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#228B22", endColorstr="#32CD32", GradientType=1);
 }
-.card-green:hover{
+
+.card-green:hover {
   background: hsla(120, 61%, 50%, 1);
 
-background: linear-gradient(135deg, hsla(120, 61%, 50%, 1) 0%, hsla(120, 61%, 34%, 1) 100%);
+  background: linear-gradient(135deg, hsla(120, 61%, 50%, 1) 0%, hsla(120, 61%, 34%, 1) 100%);
 
-background: -moz-linear-gradient(135deg, hsla(120, 61%, 50%, 1) 0%, hsla(120, 61%, 34%, 1) 100%);
+  background: -moz-linear-gradient(135deg, hsla(120, 61%, 50%, 1) 0%, hsla(120, 61%, 34%, 1) 100%);
 
-background: -webkit-linear-gradient(135deg, hsla(120, 61%, 50%, 1) 0%, hsla(120, 61%, 34%, 1) 100%);
+  background: -webkit-linear-gradient(135deg, hsla(120, 61%, 50%, 1) 0%, hsla(120, 61%, 34%, 1) 100%);
 
-filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#32CD32", endColorstr="#228B22", GradientType=1 );
-transition: 0.2s;;
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#32CD32", endColorstr="#228B22", GradientType=1);
+  transition: 0.2s;
+  ;
 }
-.card-pink{
+
+.card-pink {
   background: hsla(352, 83%, 57%, 1);
 
-background: linear-gradient(135deg, hsla(352, 83%, 57%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(14, 92%, 61%, 1) 100%);
+  background: linear-gradient(135deg, hsla(352, 83%, 57%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(14, 92%, 61%, 1) 100%);
 
-background: -moz-linear-gradient(135deg, hsla(352, 83%, 57%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(14, 92%, 61%, 1) 100%);
+  background: -moz-linear-gradient(135deg, hsla(352, 83%, 57%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(14, 92%, 61%, 1) 100%);
 
-background: -webkit-linear-gradient(135deg, hsla(352, 83%, 57%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(14, 92%, 61%, 1) 100%);
+  background: -webkit-linear-gradient(135deg, hsla(352, 83%, 57%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(14, 92%, 61%, 1) 100%);
 
-filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EC3750", endColorstr="#EC3750", GradientType=1 );
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#EC3750", endColorstr="#EC3750", GradientType=1);
 }
-.card-pink:hover{
+
+.card-pink:hover {
   background: hsla(14, 92%, 61%, 1);
 
-background: linear-gradient(135deg, hsla(14, 92%, 61%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(352, 83%, 57%, 1) 100%);
+  background: linear-gradient(135deg, hsla(14, 92%, 61%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(352, 83%, 57%, 1) 100%);
 
-background: -moz-linear-gradient(135deg, hsla(14, 92%, 61%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(352, 83%, 57%, 1) 100%);
+  background: -moz-linear-gradient(135deg, hsla(14, 92%, 61%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(352, 83%, 57%, 1) 100%);
 
-background: -webkit-linear-gradient(135deg, hsla(14, 92%, 61%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(352, 83%, 57%, 1) 100%);
+  background: -webkit-linear-gradient(135deg, hsla(14, 92%, 61%, 1) 0%, hsla(352, 83%, 57%, 1) 33%, hsla(26, 100%, 61%, 1) 100%, hsla(352, 83%, 57%, 1) 100%);
 
-filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#F76A41", endColorstr="#EC3750", GradientType=1 );
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#F76A41", endColorstr="#EC3750", GradientType=1);
 }
-.card-introtaps{
+
+.card-introtaps {
   background: hsla(63, 58%, 55%, 1);
 
-background: linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
+  background: linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
 
-background: -moz-linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
+  background: -moz-linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
 
-background: -webkit-linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
+  background: -webkit-linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
 
-filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#C8CE49", endColorstr="#1E1F1F", GradientType=1 );
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#C8CE49", endColorstr="#1E1F1F", GradientType=1);
 }
-.card-introtaps:hover{
+
+.card-introtaps:hover {
   background: hsla(63, 58%, 55%, 1);
 
-background: linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
+  background: linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
 
-background: -moz-linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
+  background: -moz-linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
 
-background: -webkit-linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
+  background: -webkit-linear-gradient(135deg, hsla(63, 58%, 55%, 1) 100%, hsla(180, 2%, 12%, 1) 100%);
 
-filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#C8CE49", endColorstr="#1E1F1F", GradientType=1 );
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#C8CE49", endColorstr="#1E1F1F", GradientType=1);
 }
-.card-publicnotepad{
+
+.card-publicnotepad {
   background: hsla(46, 76%, 59%, 1);
 
-background: linear-gradient(135deg, hsla(46, 76%, 59%, 1) 0%, hsla(61, 87%, 70%, 1) 100%);
+  background: linear-gradient(135deg, hsla(46, 76%, 59%, 1) 0%, hsla(61, 87%, 70%, 1) 100%);
 
-background: -moz-linear-gradient(135deg, hsla(46, 76%, 59%, 1) 0%, hsla(61, 87%, 70%, 1) 100%);
+  background: -moz-linear-gradient(135deg, hsla(46, 76%, 59%, 1) 0%, hsla(61, 87%, 70%, 1) 100%);
 
-background: -webkit-linear-gradient(135deg, hsla(46, 76%, 59%, 1) 0%, hsla(61, 87%, 70%, 1) 100%);
+  background: -webkit-linear-gradient(135deg, hsla(46, 76%, 59%, 1) 0%, hsla(61, 87%, 70%, 1) 100%);
 
-filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#E6C046", endColorstr="#F3F56F", GradientType=1 );
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#E6C046", endColorstr="#F3F56F", GradientType=1);
 }
-.card-heading-light{
+
+.card-heading-light {
   color: white;
   font-weight: bolder;
 }
-.card-heading-dark{
+
+.card-heading-dark {
   color: rgb(39, 39, 39);
   font-weight: bolder;
 }
 
 [data-theme="dark"] .card-heading-dark {
-    color: white;
+  color: white;
 }
 
-.card-das{
+.card-das {
   background: #020024;
-background: linear-gradient(321deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
+  background: linear-gradient(321deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
 }
-.card-das:hover{
+
+.card-das:hover {
   background: #020024;
-background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
+  background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(0, 212, 255, 1) 100%);
 }
-.card-keyboard{
+
+.card-keyboard {
   background: #1f1f1f;
-  
+
 }
 
 .about-me-layout {
@@ -294,12 +322,12 @@ background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%,
     flex-direction: row;
     align-items: flex-start;
   }
-  
+
   .about-me-container {
     max-width: none;
     flex: 1;
   }
-  
+
   .about-me-photos {
     flex: 1;
     max-width: 50%;
@@ -337,7 +365,7 @@ background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%,
 }
 
 /* Style the photo album container */
-.photo-album-wrapper > div {
+.photo-album-wrapper>div {
   gap: 1rem !important;
 }
 
@@ -367,7 +395,7 @@ background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%,
 }
 
 /* Style the photo wrapper divs */
-.photo-album-wrapper > div > div {
+.photo-album-wrapper>div>div {
   overflow: visible !important;
   border-radius: 16px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -379,22 +407,62 @@ background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%,
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.photo-album-wrapper > div > div {
+.photo-album-wrapper>div>div {
   animation: fadeInUp 0.6s ease-out backwards;
 }
 
-.photo-album-wrapper > div > div:nth-child(1) { animation-delay: 0.05s; }
-.photo-album-wrapper > div > div:nth-child(2) { animation-delay: 0.1s; }
-.photo-album-wrapper > div > div:nth-child(3) { animation-delay: 0.15s; }
-.photo-album-wrapper > div > div:nth-child(4) { animation-delay: 0.2s; }
-.photo-album-wrapper > div > div:nth-child(5) { animation-delay: 0.25s; }
-.photo-album-wrapper > div > div:nth-child(6) { animation-delay: 0.3s; }
-.photo-album-wrapper > div > div:nth-child(7) { animation-delay: 0.35s; }
-.photo-album-wrapper > div > div:nth-child(8) { animation-delay: 0.4s; }
-.photo-album-wrapper > div > div:nth-child(n+9) { animation-delay: 0.45s; }
+.photo-album-wrapper>div>div:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.photo-album-wrapper>div>div:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.photo-album-wrapper>div>div:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.photo-album-wrapper>div>div:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.photo-album-wrapper>div>div:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.photo-album-wrapper>div>div:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+.photo-album-wrapper>div>div:nth-child(7) {
+  animation-delay: 0.35s;
+}
+
+.photo-album-wrapper>div>div:nth-child(8) {
+  animation-delay: 0.4s;
+}
+
+.photo-album-wrapper>div>div:nth-child(n+9) {
+  animation-delay: 0.45s;
+}
+
+/* CSS for Selection Colors */
+::selection {
+  background: black;
+  /* Light Mode: Black selection */
+  color: white;
+}
+
+[data-theme="dark"] ::selection {
+  background: white;
+  /* Dark Mode: White selection */
+  color: black;
+}

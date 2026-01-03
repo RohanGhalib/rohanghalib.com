@@ -1,0 +1,10 @@
+/* CSS for Selection Colors */
+::selection {
+  background: black; /* Light Mode: Black selection */
+  color: white;
+}
+
+[data-theme="dark"] ::selection {
+  background: white; /* Dark Mode: White selection */
+  color: black;
+}

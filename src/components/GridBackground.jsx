@@ -152,6 +152,9 @@ const GridBackground = () => {
 
     // Event Listeners
     const handleMouseMove = (e) => {
+      // Disable interaction on touch devices/mobiles to prevent interference
+      if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
+
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
