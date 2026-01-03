@@ -251,10 +251,23 @@ background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%,
   
 }
 
+.about-me-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
 .about-me-container {
   text-align: left;
   max-width: 800px;
   margin-left: 0;
+  flex: 1;
+}
+
+.about-me-photos {
+  width: 100%;
+  flex: 1;
 }
 
 .about-me-subheading {
@@ -274,3 +287,114 @@ background: linear-gradient(121deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 0%,
 [data-theme="dark"] .about-me-container a {
   color: white;
 }
+
+/* Desktop layout: side by side */
+@media (min-width: 992px) {
+  .about-me-layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  
+  .about-me-container {
+    max-width: none;
+    flex: 1;
+  }
+  
+  .about-me-photos {
+    flex: 1;
+    max-width: 50%;
+  }
+}
+
+/* Photo Album Aesthetic Styling */
+.photo-album-wrapper {
+  padding: 1.5rem;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .photo-album-wrapper {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Photo Album Heading */
+.photo-album-heading {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  color: black;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .photo-album-heading {
+  color: white;
+}
+
+/* Style the photo album container */
+.photo-album-wrapper > div {
+  gap: 1rem !important;
+}
+
+/* Style individual photo items */
+.photo-album-wrapper img {
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer;
+  filter: brightness(1) contrast(1) saturate(1);
+  object-fit: cover;
+}
+
+.photo-album-wrapper img:hover {
+  transform: translateY(-10px) scale(1.03) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3) !important;
+  filter: brightness(1.08) contrast(1.05) saturate(1.15) !important;
+  z-index: 10;
+}
+
+[data-theme="dark"] .photo-album-wrapper img {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .photo-album-wrapper img:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Style the photo wrapper divs */
+.photo-album-wrapper > div > div {
+  overflow: visible !important;
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth fade-in animation for photos */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.photo-album-wrapper > div > div {
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.photo-album-wrapper > div > div:nth-child(1) { animation-delay: 0.05s; }
+.photo-album-wrapper > div > div:nth-child(2) { animation-delay: 0.1s; }
+.photo-album-wrapper > div > div:nth-child(3) { animation-delay: 0.15s; }
+.photo-album-wrapper > div > div:nth-child(4) { animation-delay: 0.2s; }
+.photo-album-wrapper > div > div:nth-child(5) { animation-delay: 0.25s; }
+.photo-album-wrapper > div > div:nth-child(6) { animation-delay: 0.3s; }
+.photo-album-wrapper > div > div:nth-child(7) { animation-delay: 0.35s; }
+.photo-album-wrapper > div > div:nth-child(8) { animation-delay: 0.4s; }
+.photo-album-wrapper > div > div:nth-child(n+9) { animation-delay: 0.45s; }

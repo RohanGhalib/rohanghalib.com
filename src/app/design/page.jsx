@@ -1,8 +1,5 @@
-import { RowsPhotoAlbum } from "react-photo-album";
-import "react-photo-album/rows.css";
+import Photos from "@/components/Photos";
 
-import photos from "./photos";
-
-export default function Photos() {
-  return <RowsPhotoAlbum photos={photos} />;
+export default function DesignPage() {
+  return <Photos />;
 }
