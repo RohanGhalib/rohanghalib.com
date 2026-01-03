@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { RowsPhotoAlbum } from "react-photo-album";
-import "react-photo-album/rows.css";
+import { MasonryPhotoAlbum } from "react-photo-album";
+import "react-photo-album/masonry.css";
 
-// List of image filenames in the /photos folder
+// ... (imageFiles list remains same)
 const imageFiles = [
   "dasda.png",
   "fahad bhai@2x.png",
@@ -17,7 +17,7 @@ const imageFiles = [
 
 const breakpoints = [1080, 640, 384, 256, 128, 96, 64, 48];
 
-// Function to get image dimensions
+// ... (getImageDimensions remains same)
 function getImageDimensions(src) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -33,8 +33,10 @@ export default function Photos() {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // ... (useEffect remains same)
   useEffect(() => {
     async function loadPhotos() {
+      // ... (loading logic same)
       try {
         const photoPromises = imageFiles.map(async (filename) => {
           const src = `/photos/${filename}`;
@@ -70,16 +72,24 @@ export default function Photos() {
 
   if (loading) {
     return (
-      <div className="photo-album-wrapper">
-        <div style={{ textAlign: 'center', padding: '2rem' }}>Loading photos...</div>
+      <div style={{ padding: '2rem', textAlign: 'center', opacity: 0.5 }}>
+        Loading visual feed...
       </div>
     );
   }
 
   return (
-    <div className="photo-album-wrapper">
-      <h2 className="photo-album-heading">My Captures</h2>
-      <RowsPhotoAlbum photos={photos} />
+    <div className="photo-album-container">
+      <h2 className="photo-album-heading" style={{ marginBottom: '2rem' }}>Visual Feed</h2>
+      <MasonryPhotoAlbum
+        photos={photos}
+        columns={(containerWidth) => {
+          if (containerWidth < 500) return 1;
+          if (containerWidth < 800) return 2;
+          return 3;
+        }}
+        spacing={20}
+      />
     </div>
   );
 }

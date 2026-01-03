@@ -154,8 +154,12 @@ export default function SpotifyWidget() {
           border: 1px solid rgba(255,255,255,0.1);
           
           /* Forced Dark Theme */
-          background: #000;
+          background: transparent; /* Totally clear */
           color: white; 
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
         }
         
         .spotify-card:hover {
@@ -169,7 +173,7 @@ export default function SpotifyWidget() {
           inset: 0;
           z-index: 0;
           transition: all 1s ease;
-          background: #111; /* Fallback color */
+          background: rgba(0, 0, 0, 0.05); /* Almost clear */
         }
         
         .ambient-img {
@@ -179,7 +183,8 @@ export default function SpotifyWidget() {
           transform: scale(1.5);
           transition: opacity 0.5s ease;
           /* Forced Dark Mode Glow */
-          filter: blur(60px) saturate(200%) brightness(0.6);
+          filter: blur(80px) saturate(200%) brightness(0.6);
+          /* Opacity handled inline for dynamic control */
         }
 
         /* 2. Noise Overlay */
@@ -204,7 +209,7 @@ export default function SpotifyWidget() {
           backdrop-filter: blur(20px);
           transition: background 0.3s ease;
           /* Forced Dark Mode Tint */
-          background: rgba(0, 0, 0, 0.2); 
+          background: rgba(0, 0, 0, 0.05); 
         }
 
         /* --- HEADER SECTION --- */
@@ -436,19 +441,20 @@ export default function SpotifyWidget() {
 
       {/* --- WIDGET CONTENT --- */}
       <motion.div
+        id="spotify-glass-card"
         className="spotify-card"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {/* Ambient Background */}
+        {/* Ambient Background (Restored) */}
         <div className="ambient-bg">
           {hasActiveArt && (
             <img
               src={nowPlaying.albumArt}
               alt="bg"
               className="ambient-img"
-              style={{ opacity: isPlaying ? 1 : 0.5 }}
+              style={{ opacity: isPlaying ? 0.7 : 0.3 }}
             />
           )}
         </div>

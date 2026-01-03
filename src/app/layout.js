@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Analytics } from "@vercel/analytics/next"
 import { Providers } from './providers';
 import ThemeToggle from '@/components/ThemeToggle';
+import GridBackground from '@/components/GridBackground';
 
 export const metadata = {
   title: "Rohan Ghalib - Portfolio",
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
       </head>
       <body suppressHydrationWarning={true}>
         <Providers>
+          <GridBackground />
           <ThemeToggle />
           {children}
         </Providers>
