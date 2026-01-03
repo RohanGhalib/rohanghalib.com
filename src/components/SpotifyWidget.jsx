@@ -473,10 +473,17 @@ export default function SpotifyWidget() {
                 <span className="username">{USER_NAME}</span>
                 <span className="listening-status">
                   {isPlaying ? (
-                    <button className="mute-btn" onClick={() => setIsMuted(!isMuted)}>
-                      {isMuted ? <VolumeX size={10} /> : <Volume2 size={10} />}
-                      is listening to
-                    </button>
+                    nowPlaying.previewUrl ? (
+                      <button className="mute-btn" onClick={() => setIsMuted(!isMuted)}>
+                        {isMuted ? <VolumeX size={10} /> : <Volume2 size={10} />}
+                        is listening to
+                      </button>
+                    ) : (
+                      <span className="mute-btn" title="No preview available" style={{ cursor: 'default', opacity: 0.7 }}>
+                        <VolumeX size={10} style={{ opacity: 0.5 }} />
+                        is listening to
+                      </span>
+                    )
                   ) : "was listening to"}
                 </span>
               </div>
