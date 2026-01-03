@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
+import { useTheme } from 'next-themes';
 
 const GridBackground = () => {
   const canvasRef = useRef(null);
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -109,8 +111,9 @@ const GridBackground = () => {
       ctx.lineTo(p2.x, p2.y);
 
       // Dynamic Opacity based on distortion? 
-      // Let's keep it subtle constant for now, maybe pulsate slightly near mouse
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+      // Theme based color
+      const isDark = resolvedTheme === 'dark';
+      ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.1)';
       ctx.stroke();
     };
 
@@ -141,10 +144,6 @@ const GridBackground = () => {
             const downP = points[i * rows + (j + 1)];
             if (downP) drawLine(p, downP);
           }
-
-          // Optional: Draw vertices
-          // ctx.fillStyle = 'rgba(255,255,255,0.1)';
-          // ctx.fillRect(p.x-1, p.y-1, 2, 2);
         }
       }
 
@@ -169,7 +168,7 @@ const GridBackground = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [resolvedTheme]);
 
   return (
     <canvas
