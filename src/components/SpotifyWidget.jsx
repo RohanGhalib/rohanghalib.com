@@ -36,10 +36,11 @@ const EqualizerBar = ({ delay, isPlaying }) => {
 
 export default function SpotifyWidget() {
   // --- API HOOKS ---
-  const { data: nowPlayingData } = useSWR('/api/now-playing', fetcher, { 
-    refreshInterval: 5000 
+  const API_BASE = 'https://rohanghalib.com';
+  const { data: nowPlayingData } = useSWR(`${API_BASE}/api/now-playing`, fetcher, {
+    refreshInterval: 5000
   });
-  const { data: topTracksData } = useSWR('/api/top-tracks', fetcher);
+  const { data: topTracksData } = useSWR(`${API_BASE}/api/top-tracks`, fetcher);
 
   // --- STATE ---
   const [isPlaying, setIsPlaying] = useState(false);
@@ -431,7 +432,7 @@ export default function SpotifyWidget() {
       `}</style>
 
       {/* --- WIDGET CONTENT --- */}
-      <motion.div 
+      <motion.div
         className="spotify-card"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -439,73 +440,73 @@ export default function SpotifyWidget() {
       >
         {/* Ambient Background */}
         <div className="ambient-bg">
-           {hasActiveArt && (
-             <img 
-                src={nowPlaying.albumArt} 
-                alt="bg" 
-                className="ambient-img"
-                style={{ opacity: isPlaying ? 1 : 0.5 }} 
-              />
-           )}
+          {hasActiveArt && (
+            <img
+              src={nowPlaying.albumArt}
+              alt="bg"
+              className="ambient-img"
+              style={{ opacity: isPlaying ? 1 : 0.5 }}
+            />
+          )}
         </div>
 
         {/* Texture Overlay */}
         <div className="noise-overlay" />
 
         <div className="content-layer">
-          
+
           {/* Header */}
           <div className="header">
             <div className="user-profile">
               <div className="avatar-wrap">
                 <img src={AVATAR_URL} alt="User" className="avatar-img" />
-                <div 
-                  className="status-dot" 
-                  style={{ background: isPlaying ? '#22c55e' : '#fbbf24' }} 
+                <div
+                  className="status-dot"
+                  style={{ background: isPlaying ? '#22c55e' : '#fbbf24' }}
                   title={isPlaying ? "Online" : "Idle"}
                 />
               </div>
               <div className="user-info">
                 <span className="username">{USER_NAME}</span>
                 <span className="listening-status">
-                   {isPlaying ? (
-                     <button className="mute-btn" onClick={() => setIsMuted(!isMuted)}>
-                      {isMuted ? <VolumeX size={10} /> : <Volume2 size={10} />} 
+                  {isPlaying ? (
+                    <button className="mute-btn" onClick={() => setIsMuted(!isMuted)}>
+                      {isMuted ? <VolumeX size={10} /> : <Volume2 size={10} />}
                       is listening to
-                     </button>
-                   ) : "was listening to"}
+                    </button>
+                  ) : "was listening to"}
                 </span>
               </div>
             </div>
 
             <div className="brand-icon">
-              <Disc size={20} className={isPlaying ? "animate-spin-slow" : ""} 
-                    style={{ animation: isPlaying ? 'spin 4s linear infinite' : 'none' }} 
+              <Disc size={20} className={isPlaying ? "animate-spin-slow" : ""}
+                style={{ animation: isPlaying ? 'spin 4s linear infinite' : 'none' }}
               />
             </div>
           </div>
 
           {/* Active Track */}
           <a href={nowPlaying.link || "#"} target="_blank" rel="noopener noreferrer" className="main-track">
-            <motion.div 
+            <motion.div
               className="art-container"
               animate={isPlaying ? { scale: [1, 1.02, 1] } : { scale: 1 }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
               {hasActiveArt ? (
-                <img 
-                  src={nowPlaying.albumArt} 
-                  alt="Album Art" 
+                <img
+                  src={nowPlaying.albumArt}
+                  alt="Album Art"
                   className="track-img"
                   style={{ filter: isPlaying ? 'none' : 'grayscale(30%)' }}
                 />
               ) : (
-                <div style={{width:'100%', height:'100%', display:'flex', alignItems:'center', justifyContent:'center', opacity:0.3}}>
+                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.3 }}>
                   <Disc size={32} />
                 </div>
               )}
             </motion.div>
-            
+
             <div className="track-details">
               <h3 className="track-title">{nowPlaying.title}</h3>
               <p className="track-artist">{nowPlaying.artist}</p>
@@ -525,10 +526,10 @@ export default function SpotifyWidget() {
             <div className="list-header">On Repeat</div>
             {topTracks.length > 0 ? (
               topTracks.map((track, i) => (
-                <a 
-                  key={i} 
-                  href={track.songUrl} 
-                  target="_blank" 
+                <a
+                  key={i}
+                  href={track.songUrl}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="list-item"
                 >
@@ -541,7 +542,7 @@ export default function SpotifyWidget() {
                 </a>
               ))
             ) : (
-              <div style={{fontSize:'0.8rem', opacity:0.5, padding:'10px'}}>Loading tracks...</div>
+              <div style={{ fontSize: '0.8rem', opacity: 0.5, padding: '10px' }}>Loading tracks...</div>
             )}
           </div>
 

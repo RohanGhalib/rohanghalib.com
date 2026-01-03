@@ -9,6 +9,7 @@ export async function GET() {
         status: 200,
         headers: {
           'content-type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         },
       });
     }
@@ -34,6 +35,7 @@ export async function GET() {
         status: 200,
         headers: {
           'content-type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         },
       }
     );
@@ -42,6 +44,7 @@ export async function GET() {
       status: 200,
       headers: {
         'content-type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
       },
     });
   }
