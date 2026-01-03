@@ -21,6 +21,7 @@ export async function GET() {
     const album = song.item.album.name;
     const albumImageUrl = song.item.album.images[0].url;
     const songUrl = song.item.external_urls.spotify;
+    const previewUrl = song.item.preview_url;
 
     return new Response(
       JSON.stringify({
@@ -30,6 +31,7 @@ export async function GET() {
         isPlaying,
         songUrl,
         title,
+        previewUrl,
       }),
       {
         status: 200,
