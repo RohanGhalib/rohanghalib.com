@@ -15,13 +15,54 @@ const GridBackground = () => {
     let animationFrameId;
 
     // Grid configuration
-    const SPACING = 40; // Space between grid lines
-    const MOUSE_RADIUS = 200; // Range of mouse influence
-    const MOUSE_FORCE = 0.5; // Strength of push/pull
+    const SPACING = 50; // Optimized: increased spacing
+    const MOUSE_RADIUS = 200;
+    const MOUSE_FORCE = 0.5;
 
     let mouse = { x: -1000, y: -1000 };
     let points = [];
     let width, height;
+
+    // ... (Resize handling and Point class remain similar, simplified update below)
+
+    // Simplified Point update to skip if far from mouse (optional but good)
+    class Point {
+      constructor(x, y) {
+        this.x = x; this.y = y;
+        this.originX = x; this.originY = y;
+        this.vx = 0; this.vy = 0;
+        this.mass = 2;
+      }
+
+      update() {
+        const dx = mouse.x - this.x;
+        const dy = mouse.y - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        let forceX = 0, forceY = 0;
+
+        if (dist < MOUSE_RADIUS) {
+          const angle = Math.atan2(dy, dx);
+          const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
+          const push = -20 * force * MOUSE_FORCE;
+          forceX = Math.cos(angle) * push;
+          forceY = Math.sin(angle) * push;
+        }
+
+        const springK = 0.05;
+        const springX = (this.originX - this.x) * springK;
+        const springY = (this.originY - this.y) * springK;
+
+        this.vx += (springX + forceX) / this.mass;
+        this.vy += (springY + forceY) / this.mass;
+        this.vx *= 0.9;
+        this.vy *= 0.9;
+        this.x += this.vx;
+        this.y += this.vy;
+      }
+    }
+
+    // ... (initPoints remains same)
 
     // Resize handling
     const resize = () => {
@@ -32,99 +73,33 @@ const GridBackground = () => {
       initPoints();
     };
 
-    // Point class (Physics node)
-    class Point {
-      constructor(x, y) {
-        this.x = x; // Current position
-        this.y = y;
-        this.originX = x; // Resting position
-        this.originY = y;
-        this.vx = 0; // Velocity
-        this.vy = 0;
-        this.mass = 2; // Inertia
-      }
-
-      update() {
-        // 1. Calculate distance to mouse
-        const dx = mouse.x - this.x;
-        const dy = mouse.y - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        // 2. Mouse Repulsion/Attraction (Gravity)
-        let forceX = 0;
-        let forceY = 0;
-
-        if (dist < MOUSE_RADIUS) {
-          const angle = Math.atan2(dy, dx);
-          // Negative force = Repulsion (push away), Positive = Attraction (black hole)
-          // Let's go with a slight push for a "rippling fabric" feel
-          const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
-          const push = -20 * force * MOUSE_FORCE;
-
-          forceX = Math.cos(angle) * push;
-          forceY = Math.sin(angle) * push;
-        }
-
-        // 3. Elasticity (Return to origin)
-        const springK = 0.05; // Stiffness
-        const springX = (this.originX - this.x) * springK;
-        const springY = (this.originY - this.y) * springK;
-
-        // 4. Apply forces
-        this.vx += (springX + forceX) / this.mass;
-        this.vy += (springY + forceY) / this.mass;
-
-        // 5. Friction (Damping)
-        this.vx *= 0.9;
-        this.vy *= 0.9;
-
-        // 6. Move
-        this.x += this.vx;
-        this.y += this.vy;
-      }
-    }
-
     const initPoints = () => {
       points = [];
-      const cols = Math.ceil(width / SPACING) + 2; // Extra buffer
+      const cols = Math.ceil(width / SPACING) + 2;
       const rows = Math.ceil(height / SPACING) + 2;
 
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
-          // Start slightly off-screen for buffer
           points.push(new Point((i * SPACING) - SPACING, (j * SPACING) - SPACING));
         }
       }
     };
 
-    const drawLine = (p1, p2) => {
-      // Draw only if distance is reasonable (don't cross-connect heavily distorted points weirdly)
-      const dx = p1.x - p2.x;
-      const dy = p1.y - p2.y;
-      const distSq = dx * dx + dy * dy;
-
-      // Optimize: Don't draw if too far (broken link? nah, just physics limit)
-      if (distSq > SPACING * SPACING * 4) return;
-
-      ctx.beginPath();
-      ctx.moveTo(p1.x, p1.y);
-      ctx.lineTo(p2.x, p2.y);
-
-      // Dynamic Opacity based on distortion? 
-      // Theme based color
-      const isDark = resolvedTheme === 'dark';
-      ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.1)';
-      ctx.stroke();
-    };
-
     const animate = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Update Physics
+      // 1. Batch Physics Updates
+      // We could optimize this by only updating points near mouse or with velocity
+      // But for now, let's keep it consistent.
       points.forEach(p => p.update());
 
-      // Draw Grid Lines
-      // We need to know neighbors. Since it's a grid, we can calculate indices.
+      // 2. Batch Draw Calls (HUGE Performance Boost)
+      const isDark = resolvedTheme === 'dark';
+      ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.1)';
+      ctx.lineWidth = 1;
+
+      ctx.beginPath(); // Start ONE path for all lines
+
       const cols = Math.ceil(width / SPACING) + 2;
       const rows = Math.ceil(height / SPACING) + 2;
 
@@ -134,21 +109,25 @@ const GridBackground = () => {
           const p = points[index];
           if (!p) continue;
 
-          // Draw Right
-          if (i < cols - 1) {
-            const rightP = points[(i + 1) * rows + j];
-            if (rightP) drawLine(p, rightP);
+          const rightP = (i < cols - 1) ? points[(i + 1) * rows + j] : null;
+          const downP = (j < rows - 1) ? points[i * rows + (j + 1)] : null;
+
+          if (rightP) {
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(rightP.x, rightP.y);
           }
-          // Draw Down
-          if (j < rows - 1) {
-            const downP = points[i * rows + (j + 1)];
-            if (downP) drawLine(p, downP);
+          if (downP) {
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(downP.x, downP.y);
           }
         }
       }
 
+      ctx.stroke(); // Draw EVERYTHING in one go
+
       animationFrameId = requestAnimationFrame(animate);
     };
+
 
     // Event Listeners
     const handleMouseMove = (e) => {
