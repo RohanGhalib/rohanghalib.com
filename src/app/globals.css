@@ -12,7 +12,10 @@ body {
   color: black !important;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-
+.highlight-link {
+  color: rgb(255, 255, 255) !important;
+  font-weight: 600;
+}
 h1,
 h2,
 h3,
