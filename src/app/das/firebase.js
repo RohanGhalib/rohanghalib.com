@@ -1,5 +1,5 @@
 // Import Firebase SDK
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 // Tumhara config (jo tumne diya tha)
@@ -13,8 +13,8 @@ const firebaseConfig = {
   measurementId: "G-BDTB2EQX29"
 };
 
-// Init Firebase
-const app = initializeApp(firebaseConfig);
+// Init Firebase (Singleton pattern)
+const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
 // Init Firestore
 export const db = getFirestore(app);

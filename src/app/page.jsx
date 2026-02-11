@@ -6,13 +6,15 @@ import { db } from "@/app/das/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
 // Metadata for social media
+// Metadata for social media
 export const metadata = {
-  title: "Home - Rohan Ghalib's Portfolio",
-  description: "Everything About Me 🙂",
+  title: "Home", // Will become "Home | Rohan Ghalib" via template
+  // Description falls back to layout.js if not specified, 
+  // but keeping a specific one for home is good practice.
+  description: "Everything About Me 🙂 - Rohan Ghalib's Personal Portfolio",
   openGraph: {
-    title: "Home - Rohan Ghalib's Portfolio",
-    description: "Everything About Me 🙂",
-    type: "website",
+    title: "Home | Rohan Ghalib",
+    description: "Everything About Me 🙂 - Welcome to my personal portfolio.",
     url: "https://rohanghalib.com",
     images: [
       {
@@ -22,12 +24,6 @@ export const metadata = {
         alt: "Rohan Ghalib Portfolio",
       },
     ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Rohan Ghalib - Portfolio",
-    description: "Welcome to Rohan Ghalib's personal website. Explore projects, skills, and contact information.",
-    images: ["https://rohanghalib.com/profile.jpg"],
   },
 };
 

@@ -46,3 +46,15 @@ export const getTopTracks = async () => {
     },
   });
 };
+
+const USER_PROFILE_ENDPOINT = `https://api.spotify.com/v1/me`;
+
+export const getUserProfile = async () => {
+  const { access_token } = await getAccessToken();
+
+  return fetch(USER_PROFILE_ENDPOINT, {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+};

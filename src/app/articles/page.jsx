@@ -5,14 +5,15 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/das/firebase";
 
 // Metadata for social media
+// Metadata for social media
 export const metadata = {
-  title: "Articles - Rohan Ghalib",
-  description: "Everything About Me 🙂",
+  title: "Articles",
+  description: "Everything About Me 🙂 - Read my latest articles and thoughts.",
   openGraph: {
-    title: "Articles - Rohan Ghalib",
-    description: "Everything About Me 🙂",
+    title: "Articles | Rohan Ghalib",
+    description: "Everything About Me 🙂 - Read my latest articles and thoughts.",
+    url: "https://rohanghalib.com/articles",
     type: "website",
-    url: "https://rohanghalib.com",
     images: [
       {
         url: "https://rohanghalib.com/profile.jpg",
@@ -22,24 +23,37 @@ export const metadata = {
       },
     ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Rohan Ghalib - Portfolio",
-    description: "Welcome to Rohan Ghalib's personal website. Explore projects, skills, and contact information.",
-    images: ["https://rohanghalib.com/profile.jpg"],
-  },
 };
 
 async function getArticles() {
   try {
     const articlesCol = collection(db, "articles");
     const articleSnapshot = await getDocs(articlesCol);
-    const articles = articleSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const articles = articleSnapshot.docs.map(doc => {
+      const data = doc.data();
+      // Exclude heavy 'content' field
+      const { content, ...rest } = data;
+
+      // Serialize Firestore Timestamp to plain number (or null)
+      // Next.js cannot pass complex objects like Timestamps to Client Components
+      const serializedRest = {
+        ...rest,
+        published_at: rest.published_at?.seconds ? rest.published_at.seconds * 1000 : null,
+        created_at: rest.created_at?.seconds ? rest.created_at.seconds * 1000 : null,
+        updated_at: rest.updated_at?.seconds ? rest.updated_at.seconds * 1000 : null,
+      };
+
+      return { id: doc.id, ...serializedRest };
+    });
     return articles;
   } catch (err) {
     return { error: err.message };
   }
 }
+
+export const revalidate = 60;
+
+import ArticlesList from './ArticlesList';
 
 const ArticlesPage = async () => {
   const data = await getArticles();
@@ -48,42 +62,14 @@ const ArticlesPage = async () => {
 
   return (
     <>
-    <div className="container mt-5 ">
-      <h1><Link style={{textDecoration: 'none', color: 'inherit'}} href={"./"}> <i  className="bi bi-arrow-left-circle-fill"></i> </Link>Articles</h1>
-      {error && <div>Error: {error}</div>}
-      <div className="row mt-2 d-flex justify-content-between">
-        {articles.map((article, idx) => (
-          <div
-            key={article.id || idx}
-            className="col-lg-4 mt-3 d-flex justify-content-start"
-            style={{ cursor: 'pointer' }}
-          >
-            <Link
-              href={`/articles/id/${article.id || idx}`}
-              style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}
-              tabIndex={0}
-              aria-label={`Read article: ${article.title}`}
-            >
-              <div className="article-card">
-                <h3>
-                  {article.title}
-                  <span className="arrow-icon float-end">
-                    <i className="bi bi-arrow-up-right-circle-fill"></i>
-                  </span>
-                </h3>
-                <p>
-                  {article.description && article.description.length > 110
-                    ? article.description.slice(0, 110) + " ..."
-                    : article.description}
-                </p>
-                <span className='float-bottom'><i>Published {new Date(article.published_at.seconds * 1000).toLocaleDateString()}</i></span>
-              </div>
-            </Link>
-          </div>
-        ))}
+      <div className="container mt-5 ">
+        <h1><Link style={{ textDecoration: 'none', color: 'inherit' }} href={"./"}> <i className="bi bi-arrow-left-circle-fill"></i> </Link>Articles</h1>
+        {error && <div>Error: {error}</div>}
+
+        <ArticlesList initialArticles={articles} />
+
       </div>
-    </div>
-    <Footer />
+      <Footer />
     </>
   );
 };
