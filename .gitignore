@@ -1,6 +1,7 @@
 # Firebase
 serviceAccountKey.json
 articles.json
+.env.local
 
 # Next.js
 .next/
