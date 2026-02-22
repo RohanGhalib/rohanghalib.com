@@ -1,9 +1,10 @@
 import React from 'react';
 import Footer from '@/sections/Footer';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '@/app/das/firebase';
 import MarkdownRenderer from './MarkdownRenderer';
-
+import ArticleReplyButton from '@/components/ArticleReplyButton';
+import Link from 'next/link';
 // Helper function to fetch article data
 async function getArticle(id) {
   try {
@@ -16,6 +17,24 @@ async function getArticle(id) {
   } catch (err) {
     console.error("Error fetching article:", err);
     return null;
+  }
+}
+
+async function getRecentArticles(excludeId) {
+  try {
+    const articlesCol = collection(db, 'articles');
+    const snapshot = await getDocs(articlesCol);
+    let articles = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    articles = articles.filter(a => a.id !== excludeId);
+    articles.sort((a, b) => {
+      const dateA = a.published_at?.seconds || 0;
+      const dateB = b.published_at?.seconds || 0;
+      return dateB - dateA;
+    });
+    return articles.slice(0, 3);
+  } catch (err) {
+    console.error("Error fetching recent articles:", err);
+    return [];
   }
 }
 
@@ -71,6 +90,8 @@ export default async function ArticlePage({ params }) {
     );
   }
 
+  const recentArticles = await getRecentArticles(id);
+
   return (
     <>
       <div className='container mt-5'>
@@ -81,6 +102,40 @@ export default async function ArticlePage({ params }) {
         <p className="mt-4 text-muted">
           <i>Published: {article.published_at && article.published_at.seconds ? new Date(article.published_at.seconds * 1000).toLocaleDateString() : 'Unknown date'}</i>
         </p>
+
+        {/* Reply Section */}
+        <ArticleReplyButton articleTitle={article.title} />
+
+        {/* Read More Section */}
+        {recentArticles.length > 0 && (
+          <div className="mt-5 pt-4 border-top">
+            <h3 className="mb-4">Read More Articles by Me</h3>
+            <div className="row">
+              {recentArticles.map((recentArticle, idx) => (
+                <div key={recentArticle.id || idx} className="col-lg-4 mt-3 d-flex justify-content-start" style={{ cursor: 'pointer' }}>
+                  <Link href={`/articles/id/${recentArticle.id}`} style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                    <div className="article-card h-100">
+                      <h4>
+                        {recentArticle.title}
+                        <span className="arrow-icon float-end">
+                          <i className="bi bi-arrow-up-right-circle-fill"></i>
+                        </span>
+                      </h4>
+                      <p className="small mb-4">
+                        {recentArticle.description && recentArticle.description.length > 110
+                          ? recentArticle.description.slice(0, 110) + " ..."
+                          : recentArticle.description}
+                      </p>
+                      <span className='float-bottom text-muted small mt-auto'>
+                        <i>Published: {recentArticle.published_at && recentArticle.published_at.seconds ? new Date(recentArticle.published_at.seconds * 1000).toLocaleDateString('en-GB') : 'Unknown date'}</i>
+                      </span>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
       <Footer />
     </>
