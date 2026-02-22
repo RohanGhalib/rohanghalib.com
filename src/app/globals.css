@@ -13,8 +13,11 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 .highlight-link {
-  color: rgb(255, 255, 255) !important;
+  color: black !important;
   font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
 }
 h1,
 h2,
@@ -28,6 +31,24 @@ h6 {
 [data-theme="dark"] body {
   background-color: #121212;
   color: white !important;
+}
+
+[data-theme="dark"] .highlight-link {
+  color: white !important;
+}
+
+.admin-panel {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-top: 20px;
+}
+
+[data-theme="dark"] .admin-panel {
+  background: #1e1e1e;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  border: 1px solid #333;
 }
 
 .urdutext {

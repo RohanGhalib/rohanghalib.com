@@ -1,58 +1,65 @@
 "use client";
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { useState, useEffect } from 'react';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { db } from '@/app/das/firebase';
 
 const Footer = dynamic(() => import('@/sections/Footer'), { loading: () => <p>Loading...</p> });
 
 export default function Projects() {
- return(
-  <>
-<div className="container mt-5">
- <h1><Link style={{textDecoration: 'none', color: 'inherit'}} href={"./"}> <i  className="bi bi-arrow-left-circle-fill"></i> </Link>Projects</h1>
- <div className="row mt-5">
- 
-  <div className="col-lg-3 mt-3"> <div onClick={() => window.location.href = "https://drivebags.rohanghalib.com"} className="card-project card-drivebags">
-                      <h2 className='card-heading-dark '>DriveBags</h2>
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    </div></div>
- 
-  <div className="col-lg-3 mt-3"> <div onClick={() => window.location.href = "https://introtaps.com"} className="card-project card-introtaps">
-                      <h2 className='card-heading-dark '>IntroTaps</h2>
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const q = query(collection(db, 'projects'), orderBy('order'));
+        const querySnapshot = await getDocs(q);
+        const projectsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setProjects(projectsData);
+      } catch (error) {
+        console.error("Error fetching projects: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    </div></div>
-     <div className="col-lg-3 mt-3"> <div onClick={() => window.location.href = "https://deevan.rohanghalib.com/"} className="card-project card-pink">
-                <h2 className='card-heading-light urdutext'>دیوان غالب</h2>
+    fetchProjects();
+  }, []);
 
-    </div></div>
-  <div className="col-lg-3 mt-3"> <div onClick={() => window.location.href = "https://rohanghalib.com/publicnotepad"} className="card-project card-publicnotepad">
-                            <h2 className='card-heading-dark '><i className="bi bi-notepad"></i> PublicNotePad</h2>
-
-    </div></div>
-    <div className="col-lg-3 mt-3"> <div onClick={() => window.location.href = "https://rohanghalib.com/das"} className="card-project card-das">
-                            <h2 className='card-heading-light '><i className="bi bi-notepad"></i>Dar-e-Arqam Reporting</h2>
-
-    </div></div>
-     <div className="col-lg-3 mt-3">
-    <div onClick={() => window.location.href = "https://teenverse.org"} className="card-project card-green">
-            <h2 className='card-heading-light'>teenVerse</h2>
-
-    </div>
-  </div>
-    <div className="col-lg-3 mt-3"> <div onClick={() => window.location.href = "https://github.com/RohanGhalib/SR-U2764"} className="card-project card-keyboard">
-                            <h2 className='card-heading-light '><i className="bi bi-notepad"></i>SR-U2764</h2>
-
-    </div></div>
-    <div className="col-lg-3 mt-3"> <div onClick={() => window.location.href = "https://github.com/RohanGhalib/ghalibroutes"} className="card-project card-publicnotepad">
-                            <h2 className='card-heading-dark '><i className="bi bi-notepad"></i>RouteFast</h2>
-
-    </div></div>
-    <div className="col-lg-3 mt-3"> <div onClick={() => window.location.href = "https://khushkhush.com"} className="card-project card-publicnotepad">
-                            <h2 className='card-heading-dark '><i className="bi bi-notepad"></i>KhushKhush</h2>
-
-    </div></div>
- </div>
-</div>
-<Footer />
-  </>
- )
+  return (
+    <>
+      <div className="container mt-5">
+        <h1><Link style={{ textDecoration: 'none', color: 'inherit' }} href={"./"}> <i className="bi bi-arrow-left-circle-fill"></i> </Link>Projects</h1>
+        <div className="row mt-5">
+          {loading ? (
+            <div className="col-12 text-center mt-5">
+              <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            projects.map((project) => (
+              <div key={project.id} className="col-lg-3 mt-3">
+                <div
+                  onClick={() => window.location.href = project.url}
+                  className={`card-project ${project.cssClass}`}
+                >
+                  <h2 className={project.headingClass}>
+                    {project.icon && <i className={`bi ${project.icon} me-2`}></i>}
+                    {project.title}
+                  </h2>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+      <Footer />
+    </>
+  )
 }
