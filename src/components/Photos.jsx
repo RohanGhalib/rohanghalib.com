@@ -58,7 +58,7 @@ export default function Photos() {
   if (loading) {
     return (
       <div className="photo-album-container">
-        <h2 className="photo-album-heading" style={{ marginBottom: '2rem' }}>Visual Feed</h2>
+        <h2 className="photo-album-heading" style={{ marginBottom: '2rem' }}>My Clicks</h2>
         <div style={{ padding: '2rem', textAlign: 'center', opacity: 0.6 }}>Loading photos...</div>
       </div>
     );
@@ -66,7 +66,7 @@ export default function Photos() {
 
   return (
     <div className="photo-album-container">
-      <h2 className="photo-album-heading" style={{ marginBottom: '2rem' }}>Visual Feed</h2>
+      <h2 className="photo-album-heading" style={{ marginBottom: '2rem' }}>My Clicks</h2>
       <ColumnsPhotoAlbum
         photos={photos}
         columns={3}

@@ -4,13 +4,13 @@ import { getFirestore } from "firebase/firestore";
 
 // Tumhara config (jo tumne diya tha)
 const firebaseConfig = {
-  apiKey: "AIzaSyC5iRanMTNkHYzdaTT7RPK5Y11Zz_Gi5Qs",
-  authDomain: "primal-hybrid-312109.firebaseapp.com",
-  projectId: "primal-hybrid-312109",
-  storageBucket: "primal-hybrid-312109.appspot.com",
-  messagingSenderId: "965041353877",
-  appId: "1:965041353877:web:562f8912fd6d2f1c4ed79c",
-  measurementId: "G-BDTB2EQX29"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 // Init Firebase (Singleton pattern)

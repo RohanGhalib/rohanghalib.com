@@ -102,6 +102,11 @@ const ArticlesList = ({ initialArticles = [] }) => {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
+                        {isSearchingServer && (
+                            <div className="spinner-border spinner-border-sm text-secondary ms-2" role="status">
+                                <span className="visually-hidden">Search Loading...</span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -6,6 +6,29 @@ import { Providers } from './providers';
 import ThemeToggle from '@/components/ThemeToggle';
 import GridBackground from '@/components/GridBackground';
 
+import { Outfit, Plus_Jakarta_Sans, Noto_Nastaliq_Urdu } from 'next/font/google';
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-outfit',
+  display: 'swap',
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-plus-jakarta',
+  display: 'swap',
+});
+
+const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
+  subsets: ['arabic'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-noto-urdu',
+  display: 'swap',
+});
+
 export const metadata = {
   title: {
     default: "Rohan Ghalib - Portfolio",
@@ -41,7 +64,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={`${outfit.variable} ${plusJakartaSans.variable} ${notoNastaliqUrdu.variable}`}>
       <Analytics />
       <head>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />

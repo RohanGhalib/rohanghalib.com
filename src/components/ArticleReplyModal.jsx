@@ -70,8 +70,15 @@ const ArticleReplyModal = ({ show, onClose, articleTitle }) => {
 
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary me-2" onClick={onClose}>Cancel</button>
-                            <button type="submit" className="btn btn-primary" disabled={status === 'sending'}>
-                                {status === 'sending' ? 'Sending...' : 'Send Reply'}
+                            <button type="submit" className="btn btn-primary d-flex align-items-center justify-content-center" disabled={status === 'sending'}>
+                                {status === 'sending' ? (
+                                    <>
+                                        <div className="spinner-border spinner-border-sm me-2" role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </div>
+                                        Sending...
+                                    </>
+                                ) : 'Send Reply'}
                             </button>
                         </div>
                     </form>

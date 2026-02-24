@@ -1,17 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&display=swap');
-
 @font-face {
   font-family: 'Alqalam';
   src: url(/fonts/alqalam.ttf);
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--font-plus-jakarta), sans-serif;
   text-align: center;
   color: black !important;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 .highlight-link {
   color: black !important;
   font-weight: 600;
@@ -19,13 +17,14 @@ body {
   text-decoration-thickness: 1.5px;
   text-underline-offset: 4px;
 }
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-outfit), sans-serif;
 }
 
 [data-theme="dark"] body {
@@ -41,18 +40,18 @@ h6 {
   background: white;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
 }
 
 [data-theme="dark"] .admin-panel {
   background: #1e1e1e;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   border: 1px solid #333;
 }
 
 .urdutext {
-  font-family: "Alqalam", serif;
+  font-family: "Alqalam", var(--font-noto-urdu), serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -261,10 +260,12 @@ p {
 
   filter: progid: DXImageTransform.Microsoft.gradient(startColorstr="#C8CE49", endColorstr="#1E1F1F", GradientType=1);
 }
-.card-drivebags{
+
+.card-drivebags {
   background: #58cc02;
- 
+
 }
+
 .card-publicnotepad {
   background: hsla(46, 76%, 59%, 1);
 
