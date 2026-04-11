@@ -5,6 +5,7 @@ import { db } from '@/app/das/firebase';
 import MarkdownRenderer from './MarkdownRenderer';
 import ArticleReplyButton from '@/components/ArticleReplyButton';
 import Link from 'next/link';
+export const dynamic = 'force-dynamic';
 // Helper function to fetch article data
 async function getArticle(id) {
   try {
@@ -92,13 +93,40 @@ export default async function ArticlePage({ params }) {
 
   const recentArticles = await getRecentArticles(id);
 
+  const layoutMode = article.layoutMode || 'narrow';
+  let layoutClass = 'article-layout-narrow';
+  if (layoutMode === 'wide') layoutClass = 'article-layout-wide';
+  else if (layoutMode === 'left-half') layoutClass = 'article-layout-left';
+  else if (layoutMode === 'right-half') layoutClass = 'article-layout-right';
+
+  const isUrdu = article.languageMode === 'urdu';
+
   return (
     <>
-      <div className='container mt-5'>
+      <div className={`container mt-5 ${layoutClass}`}>
         <h1>{article.title}</h1>
         <p className="lead">{article.description}</p>
         <hr />
-        <MarkdownRenderer content={article.content} />
+        
+        {article.spotifyUrl && (
+          <div className="mb-4">
+            <iframe
+              style={{ borderRadius: '12px' }}
+              src={article.spotifyUrl}
+              width="100%"
+              height="152"
+              frameBorder="0"
+              allowFullScreen
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            ></iframe>
+          </div>
+        )}
+
+        <div className={isUrdu ? "wrapper-urdutext urdutext" : ""}>
+          <MarkdownRenderer content={article.content} />
+        </div>
+
         <p className="mt-4 text-muted">
           <i>Published: {article.published_at && article.published_at.seconds ? new Date(article.published_at.seconds * 1000).toLocaleDateString() : 'Unknown date'}</i>
         </p>

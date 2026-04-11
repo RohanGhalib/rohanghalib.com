@@ -16,6 +16,9 @@ export default function ArticlesManager() {
         title: '',
         description: '',
         content: '',
+        layoutMode: 'narrow',
+        languageMode: 'english',
+        spotifyUrl: '',
         published_at: null
     });
 
@@ -47,6 +50,9 @@ export default function ArticlesManager() {
                 title: article.title || '',
                 description: article.description || '',
                 content: article.content || '',
+                layoutMode: article.layoutMode || 'narrow',
+                languageMode: article.languageMode || 'english',
+                spotifyUrl: article.spotifyUrl || '',
                 published_at: article.published_at?.seconds
                     ? new Date(article.published_at.seconds * 1000).toISOString().split('T')[0]
                     : new Date().toISOString().split('T')[0]
@@ -58,6 +64,9 @@ export default function ArticlesManager() {
                 title: '',
                 description: '',
                 content: '',
+                layoutMode: 'narrow',
+                languageMode: 'english',
+                spotifyUrl: '',
                 published_at: new Date().toISOString().split('T')[0]
             });
         }
@@ -82,6 +91,9 @@ export default function ArticlesManager() {
                 title: formData.title,
                 description: formData.description,
                 content: formData.content,
+                layoutMode: formData.layoutMode,
+                languageMode: formData.languageMode,
+                spotifyUrl: formData.spotifyUrl,
                 published_at: { seconds: Math.floor(publishDate.getTime() / 1000), nanoseconds: 0 },
                 created_at: editingArticle?.created_at || { seconds: Math.floor(Date.now() / 1000), nanoseconds: 0 },
                 updated_at: { seconds: Math.floor(Date.now() / 1000), nanoseconds: 0 }
@@ -108,11 +120,46 @@ export default function ArticlesManager() {
         }
     };
 
+    const handleMigrateSpotify = async () => {
+        if (!confirm("This will migrate all existing Spotify iframes in article contents into the new Spotify Embed field. Proceed?")) return;
+        setLoading(true);
+        let count = 0;
+        try {
+            const querySnapshot = await getDocs(collection(db, 'articles'));
+            const docs = querySnapshot.docs.map(docData => ({ id: docData.id, ...docData.data() }));
+            for (let docItem of docs) {
+                if (docItem.content && docItem.content.includes('<iframe') && docItem.content.includes('spotify.com')) {
+                    const regex = /<iframe[^>]*src=["'](https:\/\/open\.spotify\.com\/embed\/[^"']+)["'][^>]*>.*?<\/iframe>/i;
+                    const match = docItem.content.match(regex);
+                    if (match && match[1]) {
+                        const newUrl = match[1];
+                        const newContent = docItem.content.replace(regex, '').trim();
+                        await setDoc(doc(db, 'articles', docItem.id), {
+                            spotifyUrl: newUrl,
+                            content: newContent
+                        }, { merge: true });
+                        count++;
+                    }
+                }
+            }
+            alert(`Migration complete. Updated ${count} articles.`);
+            await fetchArticles();
+        } catch (error) {
+            console.error("Migration error:", error);
+            alert("Migration failed.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div>
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2>Articles Manager</h2>
-                <Button variant="dark" onClick={() => handleShowModal()}>Add New Article</Button>
+                <div>
+                    <Button variant="outline-success" className="me-2" onClick={handleMigrateSpotify} disabled={loading}>Migrate Spotify Features</Button>
+                    <Button variant="dark" onClick={() => handleShowModal()}>Add New Article</Button>
+                </div>
             </div>
 
             {loading ? (
@@ -189,6 +236,43 @@ export default function ArticlesManager() {
                                         value={formData.description}
                                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                         required
+                                    />
+                                </Form.Group>
+                            </div>
+                            <div className="col-md-4 mb-3">
+                                <Form.Group>
+                                    <Form.Label>Layout Mode</Form.Label>
+                                    <Form.Select
+                                        value={formData.layoutMode}
+                                        onChange={(e) => setFormData({ ...formData, layoutMode: e.target.value })}
+                                    >
+                                        <option value="narrow">Narrow (Default)</option>
+                                        <option value="wide">Wide</option>
+                                        <option value="left-half">Left Half</option>
+                                        <option value="right-half">Right Half</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </div>
+                            <div className="col-md-4 mb-3">
+                                <Form.Group>
+                                    <Form.Label>Language</Form.Label>
+                                    <Form.Select
+                                        value={formData.languageMode}
+                                        onChange={(e) => setFormData({ ...formData, languageMode: e.target.value })}
+                                    >
+                                        <option value="english">English</option>
+                                        <option value="urdu">Urdu</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </div>
+                            <div className="col-md-4 mb-3">
+                                <Form.Group>
+                                    <Form.Label>Spotify Embed URL</Form.Label>
+                                    <Form.Control
+                                        type="url"
+                                        placeholder="https://open.spotify.com/..."
+                                        value={formData.spotifyUrl}
+                                        onChange={(e) => setFormData({ ...formData, spotifyUrl: e.target.value })}
                                     />
                                 </Form.Group>
                             </div>

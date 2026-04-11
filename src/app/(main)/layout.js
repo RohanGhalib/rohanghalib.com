@@ -1,8 +1,8 @@
-import './globals.css';
+import '../globals.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Providers } from './providers';
+import { Providers } from '../providers';
 import ThemeToggle from '@/components/ThemeToggle';
 import GridBackground from '@/components/GridBackground';
 

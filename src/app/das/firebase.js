@@ -1,6 +1,7 @@
 // Import Firebase SDK
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // Tumhara config (jo tumne diya tha)
 const firebaseConfig = {
@@ -18,3 +19,7 @@ const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
 // Init Firestore
 export const db = getFirestore(app);
+
+// Init Auth
+export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();

@@ -1,8 +1,10 @@
 /* style.css */
 
 /* --- Main App Container & Body --- */
-body {
-  background-color: #f8f9fa; /* Softer background for the whole page */
+/* Disconnect this page from global theme when the container is present */
+body:has(.app-container), [data-theme="dark"] body:has(.app-container) {
+  background-color: #f8f9fa !important; /* Softer background for the whole page */
+  color: #212529 !important; /* Override global dark mode text color */
 }
 
 .app-container {
@@ -197,4 +199,3 @@ body {
     align-items: center;
     justify-content: center;
 }
-

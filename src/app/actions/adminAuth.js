@@ -103,3 +103,44 @@ export async function logoutAdmin() {
     cookieStore.delete('admin_session');
     return { success: true };
 }
+
+export async function verifyGoogleAuth(idToken) {
+    const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
+    if (!apiKey) {
+        return { success: false, error: 'Server configuration error: missing API key.' };
+    }
+
+    try {
+        const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idToken })
+        });
+        
+        const data = await response.json();
+        
+        if (data.error) {
+            console.error("Firebase auth verification error:", data.error.message);
+            return { success: false, error: 'Invalid authentication token.' };
+        }
+
+        const user = data.users?.[0];
+        if (!user || user.email !== ADMIN_EMAIL || !user.emailVerified) {
+            return { success: false, error: 'Unauthorized email address.' };
+        }
+
+        // Set secure cookie
+        const cookieStore = await cookies();
+        cookieStore.set('admin_session', 'authenticated_admin_token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 60 * 60 * 24, // 1 day
+            path: '/',
+        });
+
+        return { success: true };
+    } catch (error) {
+        console.error("Error verifying Google auth:", error);
+        return { success: false, error: 'Failed to verify Google login.' };
+    }
+}
