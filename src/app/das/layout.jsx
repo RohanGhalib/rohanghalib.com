@@ -1,4 +1,5 @@
 import { Noto_Nastaliq_Urdu } from 'next/font/google';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const notoNastaliqUrdu = Noto_Nastaliq_Urdu({
   subsets: ['arabic'],
@@ -13,7 +14,10 @@ export const metadata = {
 
 export default function DasLayout({ children }) {
   return (
-    <html lang="ur" dir="rtl" className={notoNastaliqUrdu.className}>
+    <html lang="en" className={notoNastaliqUrdu.className}>
+      <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+      </head>
       <body>
         {children}
       </body>

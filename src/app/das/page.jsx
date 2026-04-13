@@ -2,24 +2,24 @@
 
 import { useState, useEffect } from "react";
 import html2canvas from "html2canvas";
-import { db } from "./firebase"; 
+import { db } from "./firebase";
 import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
-import "./style.css"; 
+import "./style.css";
 
 export default function Page() {
   const today = new Date().toISOString().slice(0, 10);
 
   // --- CONFIGURATION ---
-  const BOYS_PASSWORD = "stcboys";   
-  const GIRLS_PASSWORD = "stcgirls"; 
+  const BOYS_PASSWORD = "stcboys";
+  const GIRLS_PASSWORD = "stcgirls";
   // ---------------------
 
   const specialOptions = {
-    SPECIAL: "پارے کی تیاری ⌚",
-    LONG: "پارے کا ٹیسٹ 📃",
-    REVISION: "غیرحاظر ⚠️",
-    HOLIDAY: "کچھ نہیں سنایا ❌",
-    LEAVE: "رخصت پر ہیں 💊",
+    SPECIAL: "پارے کی تیاری ",
+    LONG: "ماشااللہ پارے کا ٹیسٹ دیا ہے",
+    REVISION: "غیرحاظر ",
+    HOLIDAY: "کچھ نہیں سنایا ",
+    LEAVE: "رخصت پر ہیں ",
   };
 
   // State
@@ -27,12 +27,12 @@ export default function Page() {
   const [editing, setEditing] = useState(false);
   const [csvText, setCsvText] = useState("");
   const [loading, setLoading] = useState(false);
-  
+
   // Auth & Section State
-  const [availableSections, setAvailableSections] = useState([]); 
-  const [section, setSection] = useState(""); 
+  const [availableSections, setAvailableSections] = useState([]);
+  const [section, setSection] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
-  
+
   // Login UI State
   const [passwordInput, setPasswordInput] = useState("");
   const [loginError, setLoginError] = useState("");
@@ -71,7 +71,7 @@ export default function Page() {
       querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
         const isGirlSection = data.girl === true;
-        const displayTitle = data.title || docSnap.id.toUpperCase(); 
+        const displayTitle = data.title || docSnap.id.toUpperCase();
 
         const sectionObj = {
           id: docSnap.id,
@@ -157,7 +157,7 @@ export default function Page() {
 
     html2canvas(reportTable, {
       backgroundColor: "#ffffff",
-      scale: 4, 
+      scale: 4,
       padding: 50,
     }).then(async (canvas) => {
       canvas.toBlob(async (blob) => {
@@ -185,7 +185,7 @@ export default function Page() {
       const docRef = doc(db, "data", section);
       const snap = await getDoc(docRef);
       const currentData = snap.exists() ? snap.data() : {};
-      
+
       await setDoc(docRef, { ...currentData, names: newNames });
 
       const names = newNames;
@@ -207,11 +207,11 @@ export default function Page() {
   // --- RENDER: LOGIN SCREEN ---
   if (!authenticated) {
     return (
-      <div style={{ 
-        display: "flex", 
-        justifyContent: "center", 
-        alignItems: "center", 
-        height: "100vh", 
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
         background: "#f0f2f5",
         fontFamily: "Arial, sans-serif"
       }}>
@@ -226,11 +226,11 @@ export default function Page() {
         }}>
           <img src="/daslogo.png" height={50} alt="Logo" style={{ marginBottom: 20 }} />
           <h2 style={{ marginBottom: 20, color: "#333" }}>Hifz Report Login</h2>
-          
+
           <form onSubmit={handleLogin}>
-            <input 
-              type="password" 
-              placeholder="Enter Access Password" 
+            <input
+              type="password"
+              placeholder="Enter Access Password"
               value={passwordInput}
               onChange={(e) => setPasswordInput(e.target.value)}
               style={{
@@ -243,9 +243,9 @@ export default function Page() {
                 boxSizing: "border-box"
               }}
             />
-            
-            <button 
-              type="submit" 
+
+            <button
+              type="submit"
               disabled={loading}
               style={{
                 width: "100%",
@@ -264,13 +264,13 @@ export default function Page() {
           </form>
 
           {loginError && (
-            <div style={{ 
-              marginTop: "16px", 
-              color: "#dc3545", 
-              fontSize: "14px", 
-              background: "#ffe6e6", 
-              padding: "10px", 
-              borderRadius: "4px" 
+            <div style={{
+              marginTop: "16px",
+              color: "#dc3545",
+              fontSize: "14px",
+              background: "#ffe6e6",
+              padding: "10px",
+              borderRadius: "4px"
             }}>
               {loginError}
             </div>
@@ -282,7 +282,7 @@ export default function Page() {
 
   // --- RENDER: MAIN APP ---
   return (
-    <div className="app-container">
+    <div className="app-container" dir="rtl" lang="ur">
       <select
         value={section}
         onChange={e => setSection(e.target.value)}
@@ -290,9 +290,9 @@ export default function Page() {
       >
         {availableSections.length === 0 && <option>No sections found</option>}
         {availableSections.map((secObj) => (
-           <option key={secObj.id} value={secObj.id}>
-             {secObj.title}
-           </option>
+          <option key={secObj.id} value={secObj.id}>
+            {secObj.title}
+          </option>
         ))}
       </select>
 
@@ -316,11 +316,11 @@ export default function Page() {
 
       <div className="table-wrapper" id="reportTable" style={{ background: "#fff", borderRadius: 12, boxShadow: "0 2px 12px #eee", padding: 2, marginTop: 24 }}>
         <img src="/daslogo.png" height={56} alt="" style={{ marginBottom: 12 }} />
-        
+
         <h5 style={{ marginBottom: 18, fontWeight: 600, fontSize: 18 }}>
-           {getCurrentSectionTitle()} کی رپورٹ: &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; تاریخ: {today}
+          {getCurrentSectionTitle()} کی رپورٹ: &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; تاریخ: {today}
         </h5>
-        
+
         {loading && <div className="loader"></div>}
 
         <table className="report-table" style={{
@@ -344,91 +344,91 @@ export default function Page() {
             </tr>
           </thead>
 
-        <tbody>
-  {rows.map((row, index) => (
-    <tr key={index}>
-      <td>{index + 1}</td>
-      <td>{row.name}</td>
+          <tbody>
+            {rows.map((row, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{row.name}</td>
 
-      {row.isSpecial ? (
-        <td colSpan={5} style={{ textAlign: "center", fontWeight: "bold" }}>
-    <select
-      value={row.sabaq}   
-      onChange={(e) => handleChange(index, "sabaq", e.target.value)}
-    >
-      {Object.keys(specialOptions).map((key) => (
-        <option key={key} value={key}>
-          {specialOptions[key]}
-        </option>
-      ))}
-      <option value="✅">✅</option>
-      <option value="❌">❌</option>
-      <option value="❗">❗</option>
-    </select>
-  </td>
-      ) : (
-        <>
-          <td>
-            <select
-              value={row.sabaq}
-              onChange={(e) => handleChange(index, "sabaq", e.target.value)}
-            >
-              <option value="✅">✅</option>
-              <option value="❌">❌</option>
-              <option value="❗">❗</option>
-              {Object.keys(specialOptions).map((key) => (
-              <option key={specialOptions[key]} value={key}>
-                {specialOptions[key]}
-              </option>
+                {row.isSpecial ? (
+                  <td colSpan={5} style={{ textAlign: "center", fontWeight: "bold" }}>
+                    <select
+                      value={row.sabaq}
+                      onChange={(e) => handleChange(index, "sabaq", e.target.value)}
+                    >
+                      {Object.keys(specialOptions).map((key) => (
+                        <option key={key} value={key}>
+                          {specialOptions[key]}
+                        </option>
+                      ))}
+                      <option value="✅">✅</option>
+                      <option value="❌">❌</option>
+                      <option value="❗">❗</option>
+                    </select>
+                  </td>
+                ) : (
+                  <>
+                    <td>
+                      <select
+                        value={row.sabaq}
+                        onChange={(e) => handleChange(index, "sabaq", e.target.value)}
+                      >
+                        <option value="✅">✅</option>
+                        <option value="❌">❌</option>
+                        <option value="❗">❗</option>
+                        {Object.keys(specialOptions).map((key) => (
+                          <option key={specialOptions[key]} value={key}>
+                            {specialOptions[key]}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+
+                    <td>
+                      <select
+                        value={row.sabqi}
+                        onChange={(e) => handleChange(index, "sabqi", e.target.value)}
+                      >
+                        <option value="✅">✅</option>
+                        <option value="❌">❌</option>
+                        <option value="❗">❗</option>
+                      </select>
+                    </td>
+                    <td>
+                      <select
+                        value={row.manzil}
+                        onChange={(e) => handleChange(index, "manzil", e.target.value)}
+                      >
+                        <option value="✅">✅</option>
+                        <option value="❌">❌</option>
+                        <option value="❗">❗</option>
+                      </select>
+                    </td>
+                    <td>
+                      <select
+                        value={row.mutala}
+                        onChange={(e) => handleChange(index, "mutala", e.target.value)}
+                      >
+                        <option value="✅">✅</option>
+                        <option value="❌">❌</option>
+                        <option value="❗">❗</option>
+                      </select>
+                    </td>
+                    <td>
+                      <select
+                        value={row.arqam}
+                        onChange={(e) => handleChange(index, "arqam", e.target.value)}
+                      >
+                        <option value="✅">✅</option>
+                        <option value="❌">❌</option>
+                        <option value="❗">❗</option>
+                      </select>
+                    </td>
+                  </>
+                )}
+              </tr>
             ))}
-            </select>
-          </td>
-
-          <td>
-            <select
-              value={row.sabqi}
-              onChange={(e) => handleChange(index, "sabqi", e.target.value)}
-            >
-              <option value="✅">✅</option>
-              <option value="❌">❌</option>
-              <option value="❗">❗</option>
-            </select>
-          </td>
-          <td>
-            <select
-              value={row.manzil}
-              onChange={(e) => handleChange(index, "manzil", e.target.value)}
-            >
-              <option value="✅">✅</option>
-              <option value="❌">❌</option>
-              <option value="❗">❗</option>
-            </select>
-          </td>
-          <td>
-            <select
-              value={row.mutala}
-              onChange={(e) => handleChange(index, "mutala", e.target.value)}
-            >
-              <option value="✅">✅</option>
-              <option value="❌">❌</option>
-              <option value="❗">❗</option>
-            </select>
-          </td>
-          <td>
-            <select
-              value={row.arqam}
-              onChange={(e) => handleChange(index, "arqam", e.target.value)}
-            >
-              <option value="✅">✅</option>
-              <option value="❌">❌</option>
-              <option value="❗">❗</option>
-            </select>
-          </td>
-        </>
-      )}
-    </tr>
-  ))}
-</tbody>
+          </tbody>
 
         </table>
 
