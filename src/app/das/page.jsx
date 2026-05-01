@@ -7,7 +7,11 @@ import { doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
 import "./style.css";
 
 export default function Page() {
-  const today = new Date().toISOString().slice(0, 10);
+  const [today, setToday] = useState("");
+  
+  useEffect(() => {
+    setToday(new Date().toISOString().slice(0, 10));
+  }, []);
 
   // --- CONFIGURATION ---
   const BOYS_PASSWORD = "stcboys";

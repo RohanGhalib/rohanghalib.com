@@ -22,7 +22,7 @@ export default function Hero() {
             <img className="profilepicture" src="/profile.jpg" alt="" />
             <h1 className="mt-4 hero-title">Muhammad Rohan Ghalib</h1>
             <div className="hero-subtitle mb-4">
-              <h4>Former President <a className="highlight-link" href="https://instagram.com/emberbahawalpur" target="_blank" rel="noopener noreferrer" >Ember'26</a></h4>
+              <h4>Former President <a className="highlight-link" href="https://bwpjamiat.org/ember" target="_blank" rel="noopener noreferrer" >Ember'26</a></h4>
             </div>
             <div className="social-links-container ">
               <a href="https://instagram.com/rohanghalib" className="socialbutton"><i className="bi bi-instagram"></i></a>
